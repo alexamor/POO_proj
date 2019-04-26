@@ -2,6 +2,13 @@ package eventHandler;
 
 public abstract class Event {
 	
-	float timestamp;
+	protected float timestamp;
+
+	/**Construtor**/
+	public Event(float timestamp) {
+		this.timestamp = timestamp;
+	}
+	
+	
 
 }
