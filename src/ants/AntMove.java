@@ -17,8 +17,8 @@ public class AntMove extends Event {
 	// Cada evento de movimento de formiga está associado a uma formiga
 	private Ant ant;
 
-	AntMove(Ant ant) {
-		super();
+	AntMove(Ant ant, float timestamp) {
+		super(timestamp);
 		this.ant = ant;
 	}
 
