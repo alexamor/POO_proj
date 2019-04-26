@@ -14,4 +14,7 @@ public abstract class Event {
 	
 	
 	
+	public void simulateEvent() {
+	}
+	
 }
