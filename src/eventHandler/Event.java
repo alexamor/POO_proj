@@ -8,7 +8,7 @@ public abstract class Event {
 		this.timestamp = timestamp;
 	}
 	
-	public void simulateEvent() {
-	}
+	public void simulateEvent() {}
+	
 	
 }
