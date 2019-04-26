@@ -2,6 +2,6 @@ package eventHandler;
 
 public abstract class Event {
 	
-	float timestamp;
+	protected float timestamp;
 
 }
