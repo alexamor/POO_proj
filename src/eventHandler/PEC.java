@@ -33,9 +33,9 @@ public class PEC implements IPEC{
 		return x;
 	}
 
-
-	
-	
-	
+	@Override
+	public String toString() {
+		return "PEC [pec=" + pec + "]";
+	}
 
 }

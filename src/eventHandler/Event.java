@@ -7,6 +7,12 @@ public abstract class Event {
 	public Event(float timestamp) {
 		this.timestamp = timestamp;
 	}
+	@Override
+	public String toString() {
+		return "Event [timestamp=" + timestamp + "]";
+	}
+	
+	
 	
 	public void simulateEvent() {}
 	
