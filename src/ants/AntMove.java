@@ -1,7 +1,7 @@
 package ants;
 
 import eventHandler.Event;
-import java.util.Random;
+import java.util.*;
 
 public class AntMove extends Event {
 
@@ -33,7 +33,8 @@ public class AntMove extends Event {
 		
 		
 		int nbNonvisitedNodes = 0;
-		int[] adjacentNodes = null;
+		LinkedList<Integer> adjacentNodes = null;
+		LinkedList<Integer> nonVisitedNodes = null;
 		
 		int currentNode = ant.getCurrentNode();
 	
@@ -41,17 +42,18 @@ public class AntMove extends Event {
 		
 		
 		// TODO verificar se tem nós não visitados
-		for(int i = 0; i < adjacentNodes.length; i++) {
+		for(ListIterator<Integer> i=adjacentNodes.listIterator(); i.hasNext();) {
 			
-			if(!ant.hasVisited(adjacentNodes[i])) {
+			/*if(!ant.hasVisited(i.nex)) {
 				nbNonvisitedNodes ++;
+				nonVisitedNodes.addLast(e);
 				
 			}
 			else {
 				if (nbNonvisitedNodes != 0 ){
 					
 				}
-			}
+			}*/
 			
 		}
 		
@@ -60,6 +62,7 @@ public class AntMove extends Event {
 		
 		
 	}
+	
 	
 	
 	

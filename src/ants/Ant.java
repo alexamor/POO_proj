@@ -32,6 +32,13 @@ public class Ant implements IAnt {
 	int getCurrentNode() {
 		return currentNode;
 	}
+
+	@Override
+	public void layDownPheromones() {
+		
+		
+		
+	}
 	
 	
 	
