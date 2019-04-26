@@ -1,6 +1,7 @@
 package ants;
 
 import eventHandler.Event;
+import java.util.Random;
 
 public class AntMove extends Event {
 
@@ -26,6 +27,43 @@ public class AntMove extends Event {
 		return ant;
 	}
 
+	
+	@Override
+	public void simulateEvent() {
+		
+		
+		int nbNonvisitedNodes = 0;
+		int[] adjacentNodes = null;
+		
+		int currentNode = ant.getCurrentNode();
+	
+		// TODO get adjacent nodes
+		
+		
+		// TODO verificar se tem nós não visitados
+		for(int i = 0; i < adjacentNodes.length; i++) {
+			
+			if(!ant.hasVisited(adjacentNodes[i])) {
+				nbNonvisitedNodes ++;
+				
+			}
+			else {
+				if (nbNonvisitedNodes != 0 ){
+					
+				}
+			}
+			
+		}
+		
+		//get random number between 0.0 and 1.0
+		double aux = new Random().nextDouble();
+		
+		
+	}
+	
+	
+	
+	
 	
 	
 	

@@ -28,6 +28,10 @@ public class Ant implements IAnt {
 		else
 			return false;
 	}
+
+	int getCurrentNode() {
+		return currentNode;
+	}
 	
 	
 	
