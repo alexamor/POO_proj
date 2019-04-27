@@ -8,4 +8,5 @@ public interface IGraph {
 	LinkedList<Integer> getAdjacentNodes(int node);
 	void createAdjacencyList();
 	int getAdjacentFromEdge(int curNode, int edge);
+	Edge getEdge(int edge);
 }

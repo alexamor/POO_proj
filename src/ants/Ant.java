@@ -48,10 +48,11 @@ public class Ant{
 		return currentNode;
 	}
 
-	double getCostijk() {
+	double getCostijk(int edge) {
+		int pheromones = graph.getPheromonesFromEdge(edge);
 		
 		
-		return currentNode;
+		return (alfa + pheromones)/(beta +);
 	}
 	
 	

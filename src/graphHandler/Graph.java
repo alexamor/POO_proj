@@ -52,7 +52,16 @@ public class Graph implements IGraph{
 			
 		return 0;
 	}
+
+	@Override
+	public Edge getEdge(int edge) {
+		return edges.get(edge);
+	}
 	
-	
+	public int getPheromonesFromEdge(int edge) {
+		return getEdge(edge).PH;
+		
+	}
+
 
 }
