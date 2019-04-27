@@ -1,7 +1,7 @@
 package ants;
 import java.util.*;
 
-public class Ant implements IAnt {
+public class Ant{
 
 	private int currentNode;
 	private int currentWeight;
@@ -33,13 +33,6 @@ public class Ant implements IAnt {
 		return currentNode;
 	}
 
-	@Override
-	public void layDownPheromones() {
-		
-		
-		
-	}
-	
 	
 	
 	

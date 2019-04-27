@@ -1,0 +1,21 @@
+<? xml version="1.0" encoding="UTF-8"?>
+
+<!ELEMENT simulation (graph, events)>
+<!ATTLIST simulation finalinst (#PCDATA) #REQUIRED>
+<!ATTLIST simulation antcolsize (#PCDATA) #REQUIRED>
+<!ATTLIST simulation plevel (#PCDATA) #REQUIRED>
+<!ELEMENT graph (node+)>
+<!ATTLIST graph nbodes (#PCDATA) #REQUIRED>
+<!ATTLIST graph nestnode (#PCDATA) #REQUIRED>
+<!ELEMENT node (weight*)>
+<!ATTLIST node nodeidx (#PCDATA) #REQUIRED>
+<!ELEMENT weight (#PCDATA) >
+<!ATTLIST weight targetnode (#PCDATA) #REQUIRED>
+<!ELEMENT events (move, evaporation)>
+<!ELEMENT move EMPTY>
+<!ATTLIST move alpha (#PCDATA) #REQUIRED>
+<!ATTLIST move beta (#PCDATA) #REQUIRED>
+<!ATTLIST move delta (#PCDATA) #REQUIRED>
+<!ELEMENT evaporation EMPTY>
+<!ATTLIST evaporation eta (#PCDATA) #REQUIRED>
+<!ATTLIST evaporation rho (#PCDATA) #REQUIRED>
