@@ -8,7 +8,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import program.Edge;
+import graphHandler.Edge;
 
 public class XML
 {

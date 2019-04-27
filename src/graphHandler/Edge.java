@@ -1,4 +1,4 @@
-package program;
+package graphHandler;
 
 public class Edge
 {

@@ -1,7 +1,9 @@
 package utils;
 
 import java.util.ArrayList;
-import program.Edge;
+
+import graphHandler.Edge;
+import graphHandler.Graph;
 
 public class Initializer {
 
@@ -18,6 +20,13 @@ public class Initializer {
 		this.FinalInst = FinalInst;
 		this.AntColSize = AntColSize;
 		this.Edges = Edges;
+	}
+	
+	Graph CreateGraph() {
+		
+		Graph g = new Graph(Edges.size() + 1);
+		
+		return g;
 	}
 
 	public String toString()
