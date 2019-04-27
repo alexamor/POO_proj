@@ -1,9 +1,10 @@
 package program;
 
+import graphHandler.Graph;
 import utils.Initializer;
 import utils.XML;
 
-public class Main 
+public class MainAnts 
 {
 
 	static XML xml = new XML();
@@ -16,7 +17,13 @@ public class Main
 		try {
 			
 			Initializer init = XML.LoadXML(xml_path);
-			//System.out.println(init.toString());			
+			
+			Graph g = init.CreateGraph();
+			
+			g.addEdges(init.getEdges());
+			
+			System.out.println(g.toString());
+			
 			
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -1,11 +1,12 @@
 package graphHandler;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 public interface IGraph {
 	
-	LinkedList<Edge> getAdjacentNodes(int node);
-	void addEdge(Edge e);
+	LinkedList<Integer> getAdjacentNodes(int node);
+	void addEdges(ArrayList<Edge> e);
 	
 
 }

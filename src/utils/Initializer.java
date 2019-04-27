@@ -12,6 +12,8 @@ public class Initializer {
 	Double pLevel;
 	Double FinalInst;
 	Integer AntColSize;
+	int nbNode;
+	int startNode;
 	
 	public Initializer() {}
 	
@@ -22,10 +24,8 @@ public class Initializer {
 		this.Edges = Edges;
 	}
 	
-	Graph CreateGraph() {
-		
-		Graph g = new Graph(Edges.size() + 1);
-		
+	public Graph CreateGraph() {	
+		Graph g = new Graph(nbNode);
 		return g;
 	}
 
@@ -40,5 +40,13 @@ public class Initializer {
 		}
 		
 		return output;
+	}
+	
+	public int getNbNodes() {
+		return nbNode;
+	}
+	
+	public ArrayList<Edge> getEdges(){
+		return Edges;
 	}
 }
