@@ -25,7 +25,7 @@ public class Initializer {
 	}
 	
 	public Graph CreateGraph() {	
-		Graph g = new Graph(nbNode);
+		Graph g = new Graph(nbNode, Edges);
 		return g;
 	}
 

@@ -1,6 +1,6 @@
 package ants;
 
-import eventHandler.Event;
+import eventHandler.*;
 import java.util.*;
 
 public class AntMove extends Event {
@@ -33,27 +33,34 @@ public class AntMove extends Event {
 		
 		
 		int nbNonvisitedNodes = 0;
-		LinkedList<Integer> adjacentNodes = null;
-		LinkedList<Integer> nonVisitedNodes = null;
+		int adjacent = 0;
+		int aux_edge = 0;
+		LinkedList<Integer> adjacentNodes = null; //vetor de inteiros que apontam para as edges dos adjacentes
+		LinkedList<Integer> nonVisitedNodes = null; //vetor com edges de nós não visitados
 		
 		int currentNode = ant.getCurrentNode();
 	
-		// TODO get adjacent nodes
-		
+		// obter nós adjacentes
+		adjacentNodes = ant.graph.getAdjacentNodes(currentNode);
 		
 		// TODO verificar se tem nós não visitados
 		for(ListIterator<Integer> i=adjacentNodes.listIterator(); i.hasNext();) {
-			
-			/*if(!ant.hasVisited(i.nex)) {
+			aux_edge = i.next();
+			adjacent = ant.graph.getAdjacentFromEdge(currentNode, aux_edge);
+		
+			if(!ant.hasVisited( adjacent ) ) {
+				if(nbNonvisitedNodes == 0) {
+					nonVisitedNodes = new LinkedList<Integer>();
+				}
 				nbNonvisitedNodes ++;
-				nonVisitedNodes.addLast(e);
+				nonVisitedNodes.addLast(aux_edge);
 				
 			}
 			else {
 				if (nbNonvisitedNodes != 0 ){
 					
 				}
-			}*/
+			}
 			
 		}
 		

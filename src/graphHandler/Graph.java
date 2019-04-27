@@ -7,11 +7,12 @@ public class Graph implements IGraph{
 	
 	int nbNodes;
 	ArrayList<LinkedList<Integer>> adjList = new ArrayList<LinkedList<Integer>>();
-	
+	ArrayList<Edge> edges;
 	
 
-	public Graph(int nbNodes) {
+	public Graph(int nbNodes, ArrayList<Edge> edges) {
 		this.nbNodes = nbNodes;
+		this.edges = edges;
 	}
 
 	@Override
@@ -20,7 +21,7 @@ public class Graph implements IGraph{
 	}
 
 	@Override
-	public void addEdges(ArrayList<Edge> e) {
+	public void createAdjacencyList() {
 		
 		int i;
 		
@@ -30,7 +31,7 @@ public class Graph implements IGraph{
 		}
 		
 		//Add edges index to Lists
-		for(Edge edj : e) {
+		for(Edge edj : edges) {
 			//The -1 is due to the array starting in 0 and the nodes in 1
 			adjList.get(edj.i_NODE - 1).add(edj.j_NODE - 1);
 			adjList.get(edj.j_NODE - 1).add(edj.i_NODE - 1);
@@ -41,5 +42,17 @@ public class Graph implements IGraph{
 	public String toString() {
 		return "Graph [nbNodes=" + nbNodes + ", adjList=" + adjList + "]";
 	}
+
+	@Override
+	public int getAdjacentFromEdge(int curNode, int edge) {
+		if(curNode == edges.get(edge).getjNode())
+			return edges.get(edge).getiNODE();
+		else if( curNode == edges.get(edge).getiNODE())
+			return edges.get(edge).getjNode();
+			
+		return 0;
+	}
+	
+	
 
 }

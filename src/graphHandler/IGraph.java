@@ -6,7 +6,6 @@ import java.util.LinkedList;
 public interface IGraph {
 	
 	LinkedList<Integer> getAdjacentNodes(int node);
-	void addEdges(ArrayList<Edge> e);
-	
-
+	void createAdjacencyList();
+	int getAdjacentFromEdge(int curNode, int edge);
 }

@@ -20,7 +20,7 @@ public class MainAnts
 			
 			Graph g = init.CreateGraph();
 			
-			g.addEdges(init.getEdges());
+			g.createAdjacencyList();
 			
 			System.out.println(g.toString());
 			
