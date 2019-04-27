@@ -3,6 +3,11 @@ import java.util.*;
 import graphHandler.*;
 
 public class Ant{
+	
+	// TODO tornar static
+	public final int alfa;
+	public final int beta;
+	public final int delta;
 
 	private int currentNode;
 	private int currentWeight;
@@ -12,7 +17,7 @@ public class Ant{
 	private int[] visitedNodes;
 	private int[] edgesPath;
 	
-	public Ant(int nestNode, int nbNodes, Graph graph) {
+	public Ant(int nestNode, int nbNodes, Graph graph, int alfa, int beta, int delta) {
 		currentNode = nestNode; // As formigas começam pelo nest node
 		currentWeight = 0; // Inicialmente, ainda não encontraram nenhum ciclo de Hamilton por isso o peso é 0
 		nbVisitedNodes = 1; // Visitam o nest node.
@@ -25,6 +30,10 @@ public class Ant{
 		this.edgesPath = new int[nbNodes - 1]; // Array que vai ter todas as edges do caminho para depois conseguir decrementar feromonas
 		
 		this.graph = graph;
+		
+		this.alfa = alfa;
+		this.beta = beta;
+		this.delta = delta;
 	}
 	
 	// verifica se já visitou o nó
@@ -39,6 +48,11 @@ public class Ant{
 		return currentNode;
 	}
 
+	double getCostijk() {
+		
+		
+		return currentNode;
+	}
 	
 	
 	

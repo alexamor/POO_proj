@@ -5,15 +5,6 @@ import java.util.*;
 
 public class AntMove extends Event {
 
-	public static final int alfa;
-	public static final int beta;
-	public static final int delta;
-	static{
-		alfa = 1; //a mudar depois
-		beta = 1;
-		delta = 1;
-	
-	}
 	
 	// Cada evento de movimento de formiga está associado a uma formiga
 	private Ant ant;
@@ -32,9 +23,8 @@ public class AntMove extends Event {
 	public void simulateEvent() {
 		
 		
-		int nbNonvisitedNodes = 0;
-		int adjacent = 0;
-		int aux_edge = 0;
+		int nbNonvisitedNodes = 0, adjacent = 0, aux_edge = 0;
+		int hasNestNode = -1;
 		LinkedList<Integer> adjacentNodes = null; //vetor de inteiros que apontam para as edges dos adjacentes
 		LinkedList<Integer> nonVisitedNodes = null; //vetor com edges de nós não visitados
 		
@@ -45,24 +35,28 @@ public class AntMove extends Event {
 		
 		// TODO verificar se tem nós não visitados
 		for(ListIterator<Integer> i=adjacentNodes.listIterator(); i.hasNext();) {
-			aux_edge = i.next();
-			adjacent = ant.graph.getAdjacentFromEdge(currentNode, aux_edge);
+			aux_edge = i.next(); // obter próxima edge 
+			adjacent = ant.graph.getAdjacentFromEdge(currentNode, aux_edge); //obter o adjacente tendo em conta a aresta
 		
+			// se a formiga ainda não visitou este nó, adiciona-se à lista de nós não visitados
 			if(!ant.hasVisited( adjacent ) ) {
-				if(nbNonvisitedNodes == 0) {
+				if(nbNonvisitedNodes == 0) { //cria nova lista se for o primeiro nó não visitado
 					nonVisitedNodes = new LinkedList<Integer>();
 				}
-				nbNonvisitedNodes ++;
-				nonVisitedNodes.addLast(aux_edge);
+				nbNonvisitedNodes ++; // incrementa o nr de nós não visitados
+				nonVisitedNodes.addLast(aux_edge); 
 				
 			}
-			else {
-				if (nbNonvisitedNodes != 0 ){
-					
-				}
-			}
+
+			
+	
+		}
+		
+		//caso apenas tenha nós já visitados
+		if(nbNonvisitedNodes == 0) {
 			
 		}
+		
 		
 		//get random number between 0.0 and 1.0
 		double aux = new Random().nextDouble();
