@@ -58,9 +58,13 @@ public class Graph implements IGraph{
 		return edges.get(edge);
 	}
 	
-	public int getPheromonesFromEdge(int edge) {
+	public float getPheromonesFromEdge(int edge) {
 		return getEdge(edge).PH;
 		
+	}
+	
+	public int getWeightFromEdge(int edge) {
+		return getEdge(edge).WEIGHT;
 	}
 
 

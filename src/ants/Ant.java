@@ -5,9 +5,11 @@ import graphHandler.*;
 public class Ant{
 	
 	// TODO tornar static
-	public final int alfa;
-	public final int beta;
-	public final int delta;
+	private final int alfa;
+	private final int beta;
+	private final int delta;
+	private final int nestNode;
+	private final int nbNodes;
 
 	private int currentNode;
 	private int currentWeight;
@@ -20,7 +22,7 @@ public class Ant{
 	public Ant(int nestNode, int nbNodes, Graph graph, int alfa, int beta, int delta) {
 		currentNode = nestNode; // As formigas começam pelo nest node
 		currentWeight = 0; // Inicialmente, ainda não encontraram nenhum ciclo de Hamilton por isso o peso é 0
-		nbVisitedNodes = 1; // Visitam o nest node.
+		nbVisitedNodes = 0; // Visitam o nest node.
 		
 		this.visitedNodes = new int[nbNodes]; // Array de nós visitados. Inicialmente, este array é inicializado a -1.
 		Arrays.fill(visitedNodes, -1);
@@ -34,8 +36,18 @@ public class Ant{
 		this.alfa = alfa;
 		this.beta = beta;
 		this.delta = delta;
+		this.nestNode = nestNode;
+		this.nbNodes = nbNodes;
 	}
 	
+	void setCurrentNode(int currentNode) {
+		this.currentNode = currentNode;
+	}
+
+	int getNbNodes() {
+		return nbNodes;
+	}
+
 	// verifica se já visitou o nó
 	public boolean hasVisited(int node) {
 		if(visitedNodes[node] != -1)
@@ -49,10 +61,38 @@ public class Ant{
 	}
 
 	double getCostijk(int edge) {
-		int pheromones = graph.getPheromonesFromEdge(edge);
+		float pheromones = graph.getPheromonesFromEdge(edge);
+		int weight = graph.getWeightFromEdge(edge);
 		
-		
-		return (alfa + pheromones)/(beta +);
+		return (alfa + pheromones)/(beta + weight );
+	}
+	
+	int getNestNode() {
+		return nestNode;
+	}
+
+	int getAlfa() {
+		return alfa;
+	}
+
+	int getBeta() {
+		return beta;
+	}
+	
+	void incrementNbVisitedNodes() {
+		this.nbVisitedNodes++;
+	}
+
+	int getNbVisitedNodes() {
+		return nbVisitedNodes;
+	}
+	
+	void addEdgesPath(int index, int edge) {
+		edgesPath[index] = edge;
+	}
+	
+	void addVisitedNode(int nextNode) {
+		visitedNodes[this.currentNode] = nextNode;
 	}
 	
 	
