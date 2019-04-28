@@ -2,9 +2,9 @@ package eventHandler;
 
 public abstract class Event {
 	
-	protected float timestamp;
+	protected double timestamp;
 	/**Construtor**/
-	public Event(float timestamp) {
+	public Event(double timestamp) {
 		this.timestamp = timestamp;
 	}
 	@Override

@@ -8,10 +8,12 @@ public class AntMove extends Event {
 	
 	// Cada evento de movimento de formiga está associado a uma formiga
 	private Ant ant;
+	private PEC pec;
 
-	AntMove(Ant ant, float timestamp) {
+	AntMove(Ant ant, double timestamp, PEC pec) {
 		super(timestamp);
 		this.ant = ant;
+		this.pec = pec;
 	}
 
 	Ant getAnt() {
@@ -24,7 +26,7 @@ public class AntMove extends Event {
 		
 		
 		int nbNonvisitedNodes = 0, adjacent = 0, aux_edge = 0, chosen_edge = 0;
-		boolean hasNestNode = false;
+		int hasNestNode = -1;
 		LinkedList<Integer> adjacentNodes = null; //vetor de inteiros que apontam para as edges dos adjacentes
 		LinkedList<Integer> nonVisitedNodes = null; //vetor com edges de nós não visitados
 		LinkedList<Double> edgesCost = null;
@@ -32,11 +34,31 @@ public class AntMove extends Event {
 		int currentNode = ant.getCurrentNode();
 		int nextNode = 0;
 		double cost, totalCost = 0;
+		int[] edgesPath = null;
 	
+		
+		// verificar se encontrou um ciclo
+		if(ant.getCurrentNode() == ant.getNestNode() && ant.getNbNodes() == ant.getNbVisitedNodes()) {
+			
+			edgesPath = ant.getEdgesPath();
+			
+			for(int i = 0; i < edgesPath.length ; i++) {
+				
+			}
+			
+			// TODO ver se o ciclo é o mais pequeno encontrado até agora e se for, devolver o caminho
+			
+			//reset dos nós visitados e do nr de nós visitados.
+			ant.resetNbVisitedNodes();
+			ant.resetVisitedNodes();
+		}
+		
+		
+		
+		
 		// obter nós adjacentes
 		adjacentNodes = ant.graph.getAdjacentNodes(currentNode);
 		
-		// TODO verificar se tem nós não visitados
 		for(ListIterator<Integer> i=adjacentNodes.listIterator(); i.hasNext();) {
 			aux_edge = i.next(); // obter próxima edge 
 			adjacent = ant.graph.getAdjacentFromEdge(currentNode, aux_edge); //obter o adjacente tendo em conta a aresta
@@ -57,7 +79,7 @@ public class AntMove extends Event {
 			}
 			else {
 				if (adjacent == ant.getNestNode())
-					hasNestNode = true;
+					hasNestNode = aux_edge;
 			}
 			
 	
@@ -66,37 +88,35 @@ public class AntMove extends Event {
 		//caso apenas tenha nós já visitados
 		if(nbNonvisitedNodes == 0) {
 			//caso tenha a origem como adjacente e já tenha visitado todos os nós anteriores, o próximo nó é a origem
-			if(hasNestNode) {
-				if(ant.getNbVisitedNodes() == ant.getNbNodes()) {
+			if((hasNestNode != -1) && (ant.getNbVisitedNodes() == (ant.getNbNodes() - 1))) {
 					nextNode = ant.getNestNode();
-					
-					//TODO tem um ciclo!
+					chosen_edge = hasNestNode;
+			}
+			else {
+				// numero de adjacentes
+				int nbAdjacents = adjacentNodes.size();
+				if(hasNestNode != -1)
+					nbAdjacents --;
+				
+				edgesProbability = new Double[adjacentNodes.size()];
+				Iterator<Integer> iIterator = adjacentNodes.listIterator();		
+				
+				// caclcula a probabilidade uniforme de cada aresta, a origem tem probabilidade = 0
+				for(int i = 0; i< edgesProbability.length; i++) {
+					int origin = iIterator.next();
+					if(origin == ant.getNestNode())
+						edgesProbability[i] = 0.0;
+					else 
+						edgesProbability[i] = (double) (1/nbAdjacents);
 				}
+				
+				// escolha do próximo nó, tendo em conta a probabilidade uniforme de cada um
+				chosen_edge = this.getChosenNode(edgesProbability); // retorna o indice no vetor de probabilidades
+				nextNode = ant.graph.getAdjacentFromEdge(ant.getCurrentNode(), nonVisitedNodes.get(chosen_edge));
+				
+				//reverter o ciclo 
+				ant.revertCycle(nextNode);
 			}
-			
-			// numero de adjacentes
-			int nbAdjacents = adjacentNodes.size();
-			if(hasNestNode)
-				nbAdjacents --;
-			
-			edgesProbability = new Double[adjacentNodes.size()];
-			Iterator<Integer> iIterator = adjacentNodes.listIterator();		
-			
-			// caclcula a probabilidade uniforme de cada aresta, a origem tem probabilidade = 0
-			for(int i = 0; i< edgesProbability.length; i++) {
-				int origin = iIterator.next();
-				if(origin == ant.getNestNode())
-					edgesProbability[i] = 0.0;
-				else 
-					edgesProbability[i] = (double) (1/nbAdjacents);
-			}
-			
-			// escolha do próximo nó, tendo em conta a probabilidade uniforme de cada um
-			chosen_edge = this.getChosenNode(edgesProbability); // retorna o indice no vetor de probabilidades
-			nextNode = ant.graph.getAdjacentFromEdge(ant.getCurrentNode(), nonVisitedNodes.get(chosen_edge));
-			
-			//TODO reverter o ciclo 
-			
 		}
 		//caso haja nós por visitar
 		else {
@@ -120,18 +140,19 @@ public class AntMove extends Event {
 			chosen_edge = this.getChosenNode(edgesProbability); // retorna o indice no vetor de probabilidades
 			nextNode = ant.graph.getAdjacentFromEdge(ant.getCurrentNode(), nonVisitedNodes.get(chosen_edge));
 			
+			//adiciona a Edge no vetor, tendo em conta o nr de nós visitados
+			ant.addEdgesPath(ant.getNbVisitedNodes(), chosen_edge);
 			
 		}
 		
 		
-		//TODO final do evento, calcular o tempo que demora até acontecer o próximo e aumentar o nr de nos visitados
+		//TODO final do evento, calcular o tempo que demora até acontecer o próximo e aumentar o nr de nós visitados
+		pec.addEvent(new AntMove(this.ant, this.ant.getNextEventTime(chosen_edge), this.pec));
 		
 		// atualizar o current node
-		ant.addEdgesPath(ant.getNbVisitedNodes(), chosen_edge);
 		ant.addVisitedNode(nextNode);
-		
 		ant.setCurrentNode(nextNode);
-		
+		// incrementa o nr de nós visitados
 		ant.incrementNbVisitedNodes();
 		
 	}
@@ -145,7 +166,8 @@ public class AntMove extends Event {
 		double random = new Random().nextDouble();
 		double prob_inf = 0.0, prob_sup=0.0;
 		
-		
+		// se o numero aleatorio se encontrar entre a soma das probabilidades dos nós anteriores e a sua probabilidade mais a soma das anteriores
+		// então encontrou-se o nó escolhido aleatoriamente
 		for(int j = 0; j < edgesProbability.length; j++) {
 			prob_sup += edgesProbability[j];
 			if((prob_inf < random) && (random <= prob_sup) ) {
@@ -158,7 +180,6 @@ public class AntMove extends Event {
 		
 		return aux;
 	}
-	
 	
 	
 	

@@ -1,5 +1,6 @@
 package ants;
 import java.util.*;
+import java.math.*;
 import graphHandler.*;
 
 public class Ant{
@@ -22,7 +23,10 @@ public class Ant{
 	public Ant(int nestNode, int nbNodes, Graph graph, int alfa, int beta, int delta) {
 		currentNode = nestNode; // As formigas começam pelo nest node
 		currentWeight = 0; // Inicialmente, ainda não encontraram nenhum ciclo de Hamilton por isso o peso é 0
-		nbVisitedNodes = 0; // Visitam o nest node.
+		
+		//TODO verificar isto
+		nbVisitedNodes = 0; // Visitam o nest node. 
+		
 		
 		this.visitedNodes = new int[nbNodes]; // Array de nós visitados. Inicialmente, este array é inicializado a -1.
 		Arrays.fill(visitedNodes, -1);
@@ -94,6 +98,58 @@ public class Ant{
 	void addVisitedNode(int nextNode) {
 		visitedNodes[this.currentNode] = nextNode;
 	}
+	
+	void revertCycle(int chosen_node) {
+		int aux = chosen_node;
+		int aux_next;
+		while(visitedNodes[aux] != -1) {
+			aux_next = visitedNodes[aux];
+			visitedNodes[aux] = -1;
+			aux = aux_next;
+			
+			nbVisitedNodes --;
+		}
+	}
+	
+	double getNextEventTime(int edge) {
+		
+		double mean = this.delta * this.graph.getWeightFromEdge(edge);
+		double random = new java.util.Random().nextDouble();
+		
+		return Math.log(1 - random) * (-mean);
+		
+		
+	}
+
+	// TODO verificar isto
+	void resetNbVisitedNodes() {
+		this.nbVisitedNodes = 0;
+	}
+
+	void resetVisitedNodes() {
+		Arrays.fill(this.visitedNodes, -1);
+		this.visitedNodes[this.nestNode - 1 ] = this.nestNode - 1;
+	}
+
+	int[] getEdgesPath() {
+		return edgesPath;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	
