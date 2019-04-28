@@ -146,7 +146,8 @@ public class AntMove extends Event {
 		}
 		
 		
-		//TODO final do evento, calcular o tempo que demora até acontecer o próximo e aumentar o nr de nós visitados
+		
+		//TODO verificar se o novo timestamp é depois do final da simulação. se for, nao adicionar ao pec
 		pec.addEvent(new AntMove(this.ant, this.ant.getNextEventTime(chosen_edge), this.pec));
 		
 		// atualizar o current node
