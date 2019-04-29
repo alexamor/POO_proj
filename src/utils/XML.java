@@ -35,15 +35,15 @@ public class XML
 			Node node = header.item(0);
 			
 			init.antColSize = Integer.parseInt(node.getAttributes().getNamedItem("antcolsize").getNodeValue());
-			init.pLevel = Double.valueOf(node.getAttributes().getNamedItem("plevel").getNodeValue());
-			init.finalInst = Double.valueOf(node.getAttributes().getNamedItem("finalinst").getNodeValue());
+			init.pLevel = Float.valueOf(node.getAttributes().getNamedItem("plevel").getNodeValue());
+			init.finalInst = Float.valueOf(node.getAttributes().getNamedItem("finalinst").getNodeValue());
 			
 			//get nr of nodes and start node
 			NodeList graphInfo = doc.getElementsByTagName("graph");
 			Node nodeG = graphInfo.item(0);
 			
 			init.nbNode = Integer.parseInt(nodeG.getAttributes().getNamedItem("nbnodes").getNodeValue());
-			init.startNode = Integer.parseInt(nodeG.getAttributes().getNamedItem("nestnode").getNodeValue()) - 1;
+			init.nestNode = Integer.parseInt(nodeG.getAttributes().getNamedItem("nestnode").getNodeValue()) - 1;
 					
 			//get edges
 			ArrayList<PheromonedEdge> edges = new ArrayList<PheromonedEdge>();		
