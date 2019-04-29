@@ -2,6 +2,7 @@ package ants;
 
 import eventHandler.Event;
 import eventHandler.PEC;
+import simulator.AntSimulator;
 
 public class Observation extends Event{
 	
@@ -25,7 +26,7 @@ public class Observation extends Event{
 		System.out.println("                Present instant:               " + timestamp);
 		System.out.println("                Number of move events:         " + AntMove.getNr());
 		System.out.println("                Number of evaporation events:  " + PheromoneEvap.getNr());
-		//TODO adicionar o ciclo depois
+		System.out.println("                Hamiltonian cycle:             " + AntSimulator.getBestPath());
 	}
 	
 	

@@ -29,10 +29,7 @@ public class PheromoneEvap extends Event{
 		double random = new java.util.Random().nextDouble();
 		float newTimestamp = (float) (timestamp + Math.log(1 - random) * (-mean));
 		
-		pec.addEvent(new PheromoneEvap(newTimestamp, edge, pec));
-		
-		//Math.log(1 - random) * (-mean);
-		
+		pec.addEvent(new PheromoneEvap(newTimestamp, edge, pec));		
 	}
 
 	public static int getNr() {

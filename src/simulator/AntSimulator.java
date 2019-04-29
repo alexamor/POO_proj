@@ -141,6 +141,8 @@ public class AntSimulator implements ISimulator{
 		return "AntSimulator [toString()=" + alpha + " " + beta + " " + delta + " " + eta + " " + rho + "]";
 	}
 	
-	
+	public static String getBestPath() {
+		return null;
+	}
 
 }
