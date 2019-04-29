@@ -5,12 +5,13 @@ import graphHandler.*;
 
 public class Ant{
 	
-	// TODO tornar static
+	// TODO tornar static - mudar para o main e ir lá buscar
 	private final int alfa;
 	private final int beta;
 	private final int delta;
 	private final int nestNode;
 	private final int nbNodes;
+	private final float phLevelConst;
 
 	private int currentNode;
 	private int currentWeight;
@@ -20,10 +21,10 @@ public class Ant{
 	private int[] visitedNodes;
 	private int[] edgesPath;
 	
-	public Ant(int nestNode, int nbNodes, Graph graph, int alfa, int beta, int delta) {
+	public Ant(int nestNode, int nbNodes, Graph graph, int alfa, int beta, int delta, float phLevelConst) {
 		currentNode = nestNode; // As formigas começam pelo nest node
 		currentWeight = 0; // Inicialmente, ainda não encontraram nenhum ciclo de Hamilton por isso o peso é 0
-		
+	
 		//TODO verificar isto
 		nbVisitedNodes = 0; // Visitam o nest node. 
 		
@@ -37,6 +38,7 @@ public class Ant{
 		
 		this.graph = graph;
 		
+		this.phLevelConst = phLevelConst;
 		this.alfa = alfa;
 		this.beta = beta;
 		this.delta = delta;
@@ -107,6 +109,8 @@ public class Ant{
 			visitedNodes[aux] = -1;
 			aux = aux_next;
 			
+
+			currentWeight -= graph.getWeightFromEdge(edgesPath[nbVisitedNodes]);
 			nbVisitedNodes --;
 		}
 	}
@@ -134,7 +138,26 @@ public class Ant{
 	int[] getEdgesPath() {
 		return edgesPath;
 	}
+
+	public int getCurrentWeight() {
+		return currentWeight;
+	}
+
+	public void addCurrentWeight(int weight) {
+		this.currentWeight += weight;
+	}
 	
+	public void increasePheromones() {
+		
+		// adicionar feromonas
+		for(int i = 0; i < edgesPath.length ; i++) {
+			
+			float aux = (this.phLevelConst * this.currentWeight) / this.graph.getWeightFromEdge(edgesPath[i]);
+			graph.addPheromonesFromEdge(edgesPath[i], aux);
+						
+		}
+		
+	}
 	
 	
 	

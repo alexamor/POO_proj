@@ -40,11 +40,7 @@ public class AntMove extends Event {
 		// verificar se encontrou um ciclo
 		if(ant.getCurrentNode() == ant.getNestNode() && ant.getNbNodes() == ant.getNbVisitedNodes()) {
 			
-			edgesPath = ant.getEdgesPath();
-			
-			for(int i = 0; i < edgesPath.length ; i++) {
-				
-			}
+			ant.increasePheromones();
 			
 			// TODO ver se o ciclo é o mais pequeno encontrado até agora e se for, devolver o caminho
 			
@@ -155,6 +151,8 @@ public class AntMove extends Event {
 		ant.setCurrentNode(nextNode);
 		// incrementa o nr de nós visitados
 		ant.incrementNbVisitedNodes();
+		//atualizar o weight
+		ant.addCurrentWeight(ant.graph.getWeightFromEdge(chosen_edge));
 		
 	}
 	

@@ -19,7 +19,7 @@ public class PheromonedEdge extends Edge{
 		return pheromoneLevel;
 	}
 
-	public void setPheromoneLevel(float pheromoneLevel) {
-		this.pheromoneLevel = pheromoneLevel;
+	public void increasePheromoneLevel(float pheromoneLevel) {
+		this.pheromoneLevel += pheromoneLevel;
 	}
 }

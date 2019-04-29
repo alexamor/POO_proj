@@ -70,6 +70,10 @@ public class Graph implements IGraph{
 	public int getWeightFromEdge(int edge) {
 		return getEdge(edge).getWeight();
 	}
+	
+	public void addPheromonesFromEdge(int edge,float pheromones) {
+		getEdge(edge).increasePheromoneLevel(pheromones);
+	}
 
 
 }
