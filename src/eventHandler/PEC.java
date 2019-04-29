@@ -37,5 +37,9 @@ public class PEC implements IPEC{
 	public String toString() {
 		return "PEC [pec=" + pec + "]";
 	}
+	
+	public boolean isEmpty() {
+		return pec.isEmpty();
+	}
 
 }

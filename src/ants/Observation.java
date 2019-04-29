@@ -1,20 +1,16 @@
 package ants;
 
 import eventHandler.Event;
-import eventHandler.PEC;
 import simulator.AntSimulator;
 
 public class Observation extends Event{
 	
-	PEC pec;
-	int nr;
+	private static int nr = 1;
 
 	
 
-	public Observation(double timestamp, PEC pec, int nr) {
+	public Observation(double timestamp) {
 		super(timestamp);
-		this.pec = pec;
-		this.nr = nr;
 	}
 
 
@@ -28,9 +24,13 @@ public class Observation extends Event{
 		System.out.println("                Number of move events:         " + AntMove.getNr());
 		System.out.println("                Number of evaporation events:  " + PheromoneEvap.getNr());
 		System.out.println("                Hamiltonian cycle:             " + AntSimulator.getBestPath());
-	
-		pec.addEvent(new Observation(timestamp + AntSimulator.getFinalInst()/20, pec, nr + 1));
+		
+		if(nr < 20)
+			AntSimulator.getPec().addEvent(new Observation(timestamp + AntSimulator.getFinalInst()/20));
+		
+		nr++;
 	}
+		
 	
 	
 }

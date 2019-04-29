@@ -8,9 +8,9 @@ import ants.PheromonedEdge;
 
 public class Graph implements IGraph{
 	
-	int nbNodes;
-	ArrayList<LinkedList<Integer>> adjList = new ArrayList<LinkedList<Integer>>();
-	ArrayList<PheromonedEdge> edges;
+	private int nbNodes;
+	private ArrayList<LinkedList<Integer>> adjList = new ArrayList<LinkedList<Integer>>();
+	private ArrayList<PheromonedEdge> edges;
 	
 
 	public Graph(int nbNodes, ArrayList<PheromonedEdge> edges) {
@@ -49,8 +49,8 @@ public class Graph implements IGraph{
 	@Override
 	public int getAdjacentFromEdge(int curNode, int edge) {
 		if(curNode == edges.get(edge).getjNode())
-			return edges.get(edge).getiNODE();
-		else if( curNode == edges.get(edge).getiNODE())
+			return edges.get(edge).getiNode();
+		else if( curNode == edges.get(edge).getiNode())
 			return edges.get(edge).getjNode();
 			
 		return 0;
@@ -75,5 +75,8 @@ public class Graph implements IGraph{
 		getEdge(edge).increasePheromoneLevel(pheromones);
 	}
 
+	public int nrOfEdges() {
+		return edges.size();
+	}
 
 }

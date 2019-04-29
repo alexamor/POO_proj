@@ -2,9 +2,9 @@ package graphHandler;
 
 public class Edge
 {
-    int iNode;
-    int jNode;
-    private int weight;
+    protected int iNode;
+    protected int jNode;
+    protected int weight;
 
     public Edge (int iNode,int jNode, int weight)
     {
@@ -13,7 +13,7 @@ public class Edge
         this.setWeight(weight);
     }
 
-    public int getiNODE()
+    public int getiNode()
     {
         return this.iNode;
     }
@@ -22,12 +22,6 @@ public class Edge
     {
         return this.jNode;
     }
-
-    public int getWEIGHT() 
-    { 
-        return this.getWeight(); 
-    }
-
 
     public String toString()
     {

@@ -3,10 +3,9 @@ package simulator;
 import graphHandler.Graph;
 import utils.Initializer;
 import utils.XML;
-
-import java.util.Arrays;
-
 import ants.*;
+import eventHandler.Event;
+import eventHandler.PEC;
 
 
 public class AntSimulator implements ISimulator{
@@ -22,6 +21,8 @@ public class AntSimulator implements ISimulator{
 	static float alpha, beta, delta, eta, rho;
 	static int bestWeight;
 	static int[] bestPath;
+	static Graph g;
+	static PEC pec = new PEC();
 	
 	public static void main (String [] args)
 	{
@@ -40,20 +41,27 @@ public class AntSimulator implements ISimulator{
 			
 			getParameters(init);
 			
-			Graph g = init.CreateGraph();
+			g = init.CreateGraph();
 			g.createAdjacencyList();
 			
 			//System.out.println(this.toString());
 			
 			Ant[] ants	= new Ant[AntSimulator.antColSize];
-			for(int i = 0; i < ants.length; i++) {
-				
-				//ants[i] = new Ant();
-			
+			for(int i = 0; i < ants.length; i++) { 
+				ants[i] = new Ant();
+				pec.addEvent(new AntMove(ants[i], 0));
 			}
+			pec.addEvent(new Observation(finalInst/20));
 			
 			bestWeight = Integer.MAX_VALUE;
 			bestPath = new int[AntSimulator.nbNode];
+			
+			Event curEvent;
+			
+			while(!pec.isEmpty()) {
+				curEvent = (Event) pec.removeEvent();
+				curEvent.simulateEvent();
+			}
 			
 			
 		} catch (Exception e) {
@@ -62,7 +70,15 @@ public class AntSimulator implements ISimulator{
 	}
 	
 
-	void getParameters(Initializer init) {
+	public static PEC getPec() {
+		return pec;
+	}
+
+	public static Graph getG() {
+		return g;
+	}
+
+	public void getParameters(Initializer init) {
 		pLevel = init.getPLevel();
 		finalInst = init.getFinalInst();
 		antColSize = init.getAntColSize();
@@ -145,18 +161,18 @@ public class AntSimulator implements ISimulator{
 		int aux = AntSimulator.nestNode;
 		String s = "{";
 		
-		s += Integer.toString(aux);
+		s += (aux + 1);
 		aux = AntSimulator.bestPath[aux];
 		
 		for(int i = 0; i< AntSimulator.bestPath.length - 2; i++) {
 			
-			s += Integer.toString(aux +1);
+			s += (aux +1);
 			s += ",";
 			
 			aux = AntSimulator.bestPath[aux];
 		}
 		
-		s += AntSimulator.bestPath[aux];
+		s += AntSimulator.bestPath[aux] + 1;
 		s += "}";
 		
 		return s;

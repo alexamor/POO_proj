@@ -10,16 +10,14 @@ public class AntMove extends Event {
 	
 	// Cada evento de movimento de formiga está associado a uma formiga
 	private Ant ant;
-	private PEC pec;
-	static int nr = 0;
+	private static int nr = 0;
 
-	AntMove(Ant ant, double timestamp, PEC pec) {
+	public AntMove(Ant ant, double timestamp) {
 		super(timestamp);
 		this.ant = ant;
-		this.pec = pec;
 	}
 
-	Ant getAnt() {
+	public Ant getAnt() {
 		return ant;
 	}
 
@@ -54,7 +52,7 @@ public class AntMove extends Event {
 				double evapTimestamp = PheromoneEvap.getNewTimestamp(this.timestamp);
 				if(evapTimestamp <= AntSimulator.getFinalInst()) {
 					PheromonedEdge evapEdge = ant.getEdgeFromIndex(i);
-					pec.addEvent(new PheromoneEvap(evapTimestamp, evapEdge, pec) );
+					AntSimulator.getPec().addEvent(new PheromoneEvap(evapTimestamp, evapEdge) );
 				}
 				
 			}
@@ -67,11 +65,11 @@ public class AntMove extends Event {
 		
 		
 		// obter nós adjacentes
-		adjacentNodes = ant.graph.getAdjacentNodes(currentNode);
+		adjacentNodes = AntSimulator.getG().getAdjacentNodes(currentNode);
 		
 		for(ListIterator<Integer> i=adjacentNodes.listIterator(); i.hasNext();) {
 			auxEdge = i.next(); // obter próxima edge 
-			adjacent = ant.graph.getAdjacentFromEdge(currentNode, auxEdge); //obter o adjacente tendo em conta a aresta
+			adjacent = AntSimulator.getG().getAdjacentFromEdge(currentNode, auxEdge); //obter o adjacente tendo em conta a aresta
 		
 			// se a formiga ainda não visitou este nó, adiciona-se à lista de nós não visitados e calcula-se o seu custo
 			if(!ant.hasVisited( adjacent ) ) {
@@ -98,7 +96,7 @@ public class AntMove extends Event {
 		//caso apenas tenha nós já visitados
 		if(nbNonvisitedNodes == 0) {
 			//caso tenha a origem como adjacente e já tenha visitado todos os nós anteriores, o próximo nó é a origem
-			if((hasNestNode != -1) && (ant.getNbVisitedNodes() == (AntSimulator.getNbNode() - 1))) {
+			if((hasNestNode != -1) && (ant.getNbVisitedNodes() == (AntSimulator.getNbNode()))) {
 					nextNode = AntSimulator.getNestNode();
 					chosenEdge = hasNestNode;
 			}
@@ -112,20 +110,22 @@ public class AntMove extends Event {
 				Iterator<Integer> iIterator = adjacentNodes.listIterator();		
 				
 				// caclcula a probabilidade uniforme de cada aresta, a origem tem probabilidade = 0
-				for(int i = 0; i< edgesProbability.length; i++) {
+				for(int i = 0; i< adjacentNodes.size(); i++) {
 					int origin = iIterator.next();
 					if(origin == AntSimulator.getNestNode() )
 						edgesProbability[i] = 0.0;
 					else 
-						edgesProbability[i] = (double) (1/nbAdjacents);
+						edgesProbability[i] = (double) 1/nbAdjacents;
 				}
 				
 				// escolha do próximo nó, tendo em conta a probabilidade uniforme de cada um
 				chosenEdge = this.getChosenNode(edgesProbability); // retorna o indice no vetor de probabilidades
-				nextNode = ant.graph.getAdjacentFromEdge(ant.getCurrentNode(), nonVisitedNodes.get(chosenEdge));
+				nextNode = AntSimulator.getG().getAdjacentFromEdge(ant.getCurrentNode(), adjacentNodes.get(chosenEdge));
 				
 				//reverter o ciclo 
 				ant.revertCycle(nextNode, chosenEdge);
+				
+				
 			}
 		}
 		//caso haja nós por visitar
@@ -133,7 +133,8 @@ public class AntMove extends Event {
 			
 			//caso só exista um nó para visitar, vai obrigatoriamente para esse
 			if( nbNonvisitedNodes == 1) {
-				nextNode = ant.graph.getAdjacentFromEdge(currentNode, nonVisitedNodes.getFirst());
+				chosenEdge = nonVisitedNodes.getFirst();
+				nextNode = AntSimulator.getG().getAdjacentFromEdge(currentNode, nonVisitedNodes.getFirst());
 			}
 			//calcula a probabilidade de cada nó
 			else {
@@ -141,16 +142,19 @@ public class AntMove extends Event {
 				edgesProbability = new Double[nbNonvisitedNodes];
 				Iterator<Double> dIterator = edgesCost.listIterator();				
 				for(int i = 0; i< nbNonvisitedNodes; i++) {
-					edgesProbability[i] = dIterator.next()/totalCost;	//Cijk/Ci
+					edgesProbability[i] = (double) dIterator.next()/totalCost;	//Cijk/Ci
 				}
 				
+				// escolha do próximo nó, tendo em conta a probabilidade de cada um
+				chosenEdge = this.getChosenNode(edgesProbability); // retorna o indice no vetor de probabilidades
+				nextNode = AntSimulator.getG().getAdjacentFromEdge(ant.getCurrentNode(), nonVisitedNodes.get(chosenEdge));
 			}
 			
-			// escolha do próximo nó, tendo em conta a probabilidade de cada um
-			chosenEdge = this.getChosenNode(edgesProbability); // retorna o indice no vetor de probabilidades
-			nextNode = ant.graph.getAdjacentFromEdge(ant.getCurrentNode(), nonVisitedNodes.get(chosenEdge));
+
 			
 			//adiciona a Edge no vetor, tendo em conta o nr de nós visitados
+			//System.out.println("nbVisitedNodes:" + ant.getNbVisitedNodes());
+			//System.out.println("nbVN  " + ant.getNbVisitedNodes());
 			ant.addEdgesPath(ant.getNbVisitedNodes(), chosenEdge);
 			
 		}
@@ -158,11 +162,11 @@ public class AntMove extends Event {
 		
 		
 		// verifica se o timestamp do prox evento é depois do final da simulação. se for, nao adiciona ao pec
-		nextEventTime = this.ant.getNextEventTime(chosenEdge);
+		nextEventTime = Ant.getNextEventTime(chosenEdge);
 		if(nextEventTime <= AntSimulator.getFinalInst()) {
 			
 			// adicionar o evento do proximo movimento da formiga
-			pec.addEvent(new AntMove(this.ant, nextEventTime, this.pec));
+			AntSimulator.getPec().addEvent(new AntMove(this.ant, nextEventTime));
 
 			// atualizar o current node
 			ant.addVisitedNode(nextNode);
@@ -170,7 +174,7 @@ public class AntMove extends Event {
 			// incrementa o nr de nós visitados
 			ant.incrementNbVisitedNodes();
 			//atualizar o weight
-			ant.addCurrentWeight(ant.graph.getWeightFromEdge(chosenEdge));
+			ant.addCurrentWeight(AntSimulator.getG().getWeightFromEdge(chosenEdge));
 		}
 		
 		
