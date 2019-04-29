@@ -138,6 +138,9 @@ public class Ant{
 		
 	}
 	
+	public PheromonedEdge getEdgeFromIndex(int index) {
+		return graph.getEdge(index);
+	}
 	
 	
 	

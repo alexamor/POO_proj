@@ -45,12 +45,19 @@ public class AntMove extends Event {
 			
 			ant.increasePheromones();
 			
-			// TODO ver se o ciclo é o mais pequeno encontrado até agora e se for, devolver o caminho
 			if(ant.getCurrentWeight() < AntSimulator.getBestWeight()) {
 				AntSimulator.setBestPath(ant.getVisitedNodes());
 				AntSimulator.setBestWeight(ant.getCurrentWeight());
 			}
 			
+			for(int i=0; i < ant.getEdgesPath().length; i++) {
+				double evapTimestamp = PheromoneEvap.getNewTimestamp(this.timestamp);
+				if(evapTimestamp <= AntSimulator.getFinalInst()) {
+					PheromonedEdge evapEdge = ant.getEdgeFromIndex(i);
+					pec.addEvent(new PheromoneEvap(evapTimestamp, evapEdge, pec) );
+				}
+				
+			}
 			//reset dos nós visitados e do nr de nós visitados.
 			ant.resetNbVisitedNodes();
 			ant.resetVisitedNodes();

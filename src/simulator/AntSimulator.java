@@ -142,7 +142,24 @@ public class AntSimulator implements ISimulator{
 	}
 	
 	public static String getBestPath() {
-		return null;
+		int aux = AntSimulator.nestNode;
+		String s = "{";
+		
+		s += Integer.toString(aux);
+		aux = AntSimulator.bestPath[aux];
+		
+		for(int i = 0; i< AntSimulator.bestPath.length - 2; i++) {
+			
+			s += Integer.toString(aux +1);
+			s += ",";
+			
+			aux = AntSimulator.bestPath[aux];
+		}
+		
+		s += AntSimulator.bestPath[aux];
+		s += "}";
+		
+		return s;
 	}
 
 }
