@@ -3,7 +3,6 @@ package utils;
 import java.util.ArrayList;
 
 
-import graphHandler.Edge;
 import graphHandler.Graph;
 import ants.PheromonedEdge;
 
@@ -11,15 +10,15 @@ public class Initializer {
 
 	ArrayList<PheromonedEdge> edges;
 	
-	Double pLevel;
-	Double finalInst;
-	Integer antColSize;
+	float pLevel;
+	float finalInst;
+	int antColSize;
 	int nbNode;
-	int startNode;
+	int nestNode;
 	
 	public Initializer() {}
 	
-	public Initializer(ArrayList<PheromonedEdge> edges, double pLevel, double finalInst, int antColSize) {
+	public Initializer(ArrayList<PheromonedEdge> edges, float pLevel, float finalInst, int antColSize) {
 		this.pLevel = pLevel;
 		this.finalInst = finalInst;
 		this.antColSize = antColSize;
@@ -51,4 +50,22 @@ public class Initializer {
 	public ArrayList<PheromonedEdge> getEdges(){
 		return edges;
 	}
+	
+	public float getPLevel() {
+		return pLevel;
+	}
+	
+	public float getFinalInst() {
+		return finalInst;
+	}
+
+	public int getAntColSize() {
+		return antColSize;
+	}
+
+	public int getNestNode() {
+		return nestNode;
+	}
+	
+	
 }
