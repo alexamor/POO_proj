@@ -22,11 +22,14 @@ public class Observation extends Event{
 	@Override
 	public void simulateEvent() {
 		
+		//Imprimir informação
 		System.out.println("Observation " + nr + ":");
 		System.out.println("                Present instant:               " + timestamp);
 		System.out.println("                Number of move events:         " + AntMove.getNr());
 		System.out.println("                Number of evaporation events:  " + PheromoneEvap.getNr());
 		System.out.println("                Hamiltonian cycle:             " + AntSimulator.getBestPath());
+	
+		pec.addEvent(new Observation(timestamp + AntSimulator.getFinalInst()/20, pec, nr + 1));
 	}
 	
 	

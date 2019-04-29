@@ -20,22 +20,21 @@ public class PheromoneEvap extends Event{
 	@Override
 	public void simulateEvent() {
 		
-		//Só realiza o decremento das feromonas caso estas tenham um nível positivo
+		edge.decreasePheromoneLevel(AntSimulator.getRho());
+		
+		//Caso o nível de feromonas continue positivo agendar a próxima evaporação
 		if(edge.getPheromoneLevel() > 0)
-			edge.decreasePheromoneLevel(AntSimulator.getRho());
-		
-		//colocar na queue próxima evaporação
-		float mean = AntSimulator.getEta();
-		double random = new java.util.Random().nextDouble();
-		float newTimestamp = (float) (timestamp + Math.log(1 - random) * (-mean));
-		
-		pec.addEvent(new PheromoneEvap(newTimestamp, edge, pec));		
+		{
+			float mean = AntSimulator.getEta();
+			double random = new java.util.Random().nextDouble();
+			float newTimestamp = (float) (timestamp + Math.log(1 - random) * (-mean));
+			
+			pec.addEvent(new PheromoneEvap(newTimestamp, edge, pec));	
+		}
+				
 	}
 
 	public static int getNr() {
 		return nr;
 	}
-	
-	
-
 }
