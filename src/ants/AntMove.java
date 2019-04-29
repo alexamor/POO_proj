@@ -1,6 +1,8 @@
 package ants;
 
 import eventHandler.*;
+import simulator.AntSimulator;
+
 import java.util.*;
 
 public class AntMove extends Event {
@@ -34,11 +36,10 @@ public class AntMove extends Event {
 		int currentNode = ant.getCurrentNode();
 		int nextNode = 0;
 		double cost, totalCost = 0;
-		int[] edgesPath = null;
 	
 		
 		// verificar se encontrou um ciclo
-		if(ant.getCurrentNode() == ant.getNestNode() && ant.getNbNodes() == ant.getNbVisitedNodes()) {
+		if(ant.getCurrentNode() == AntSimulator.getNestNode() && AntSimulator.getNbNode() == ant.getNbVisitedNodes()) {
 			
 			ant.increasePheromones();
 			
@@ -74,7 +75,7 @@ public class AntMove extends Event {
 				
 			}
 			else {
-				if (adjacent == ant.getNestNode())
+				if (adjacent == AntSimulator.getNestNode())
 					hasNestNode = aux_edge;
 			}
 			
@@ -84,8 +85,8 @@ public class AntMove extends Event {
 		//caso apenas tenha nós já visitados
 		if(nbNonvisitedNodes == 0) {
 			//caso tenha a origem como adjacente e já tenha visitado todos os nós anteriores, o próximo nó é a origem
-			if((hasNestNode != -1) && (ant.getNbVisitedNodes() == (ant.getNbNodes() - 1))) {
-					nextNode = ant.getNestNode();
+			if((hasNestNode != -1) && (ant.getNbVisitedNodes() == (AntSimulator.getNbNode() - 1))) {
+					nextNode = AntSimulator.getNestNode();
 					chosen_edge = hasNestNode;
 			}
 			else {
@@ -100,7 +101,7 @@ public class AntMove extends Event {
 				// caclcula a probabilidade uniforme de cada aresta, a origem tem probabilidade = 0
 				for(int i = 0; i< edgesProbability.length; i++) {
 					int origin = iIterator.next();
-					if(origin == ant.getNestNode())
+					if(origin == AntSimulator.getNestNode() )
 						edgesProbability[i] = 0.0;
 					else 
 						edgesProbability[i] = (double) (1/nbAdjacents);
@@ -161,7 +162,7 @@ public class AntMove extends Event {
 	}
 	
 	public int getChosenNode(Double[] edgesProbability) {
-		int aux = -1, node = -1;
+		int aux = -1;
 		double random = new Random().nextDouble();
 		double prob_inf = 0.0, prob_sup=0.0;
 		

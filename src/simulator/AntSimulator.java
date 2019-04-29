@@ -3,6 +3,8 @@ package simulator;
 import graphHandler.Graph;
 import utils.Initializer;
 import utils.XML;
+import ants.*;
+
 
 public class AntSimulator implements ISimulator{
 
@@ -14,6 +16,7 @@ public class AntSimulator implements ISimulator{
 	static int antColSize;
 	static int nbNode;
 	static int nestNode;
+	static float alpha, beta, delta, eta, rho;
 	
 	public static void main (String [] args)
 	{
@@ -33,10 +36,17 @@ public class AntSimulator implements ISimulator{
 			getParameters(init);
 			
 			Graph g = init.CreateGraph();
-			
 			g.createAdjacencyList();
 			
-			System.out.println(g.toString());
+			//System.out.println(this.toString());
+			
+			Ant[] ants	= new Ant[AntSimulator.antColSize];
+			for(int i = 0; i < ants.length; i++) {
+				
+				//ants[i] = new Ant();
+			
+			}
+			
 			
 			
 		} catch (Exception e) {
@@ -48,8 +58,13 @@ public class AntSimulator implements ISimulator{
 		pLevel = init.getPLevel();
 		finalInst = init.getFinalInst();
 		antColSize = init.getAntColSize();
-		nbNode = init.getNbNodes();
+		nbNode = init.getNbNode();
 		nestNode = init.getNestNode();
+		alpha = init.getAlpha();
+		beta = init.getBeta();
+		delta = init.getDelta();
+		eta = init.getEta();
+		rho = init.getRho();
 	}
 
 	public static XML getXml() {
@@ -79,5 +94,32 @@ public class AntSimulator implements ISimulator{
 	public static int getNestNode() {
 		return nestNode;
 	}
+
+	public static float getAlpha() {
+		return alpha;
+	}
+
+	public static float getBeta() {
+		return beta;
+	}
+
+	public static float getDelta() {
+		return delta;
+	}
+
+	public static float getEta() {
+		return eta;
+	}
+
+	public static float getRho() {
+		return rho;
+	}
+
+	@Override
+	public String toString() {
+		return "AntSimulator [toString()=" + alpha + " " + beta + " " + delta + " " + eta + " " + rho + "]";
+	}
+	
+	
 
 }

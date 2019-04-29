@@ -1,57 +1,40 @@
 package ants;
 import java.util.*;
-import java.math.*;
 import graphHandler.*;
+import simulator.AntSimulator;
 
 public class Ant{
 	
-	// TODO tornar static - mudar para o main e ir lá buscar
-	private final int alfa;
-	private final int beta;
-	private final int delta;
-	private final int nestNode;
-	private final int nbNodes;
-	private final float phLevelConst;
-
 	private int currentNode;
 	private int currentWeight;
 	private int nbVisitedNodes;
-	final Graph graph;
+	Graph graph;
 	
 	private int[] visitedNodes;
 	private int[] edgesPath;
 	
-	public Ant(int nestNode, int nbNodes, Graph graph, int alfa, int beta, int delta, float phLevelConst) {
-		currentNode = nestNode; // As formigas começam pelo nest node
+	public Ant( Graph graph) {
+		currentNode = AntSimulator.getNestNode(); // As formigas começam pelo nest node
 		currentWeight = 0; // Inicialmente, ainda não encontraram nenhum ciclo de Hamilton por isso o peso é 0
 	
 		//TODO verificar isto
 		nbVisitedNodes = 0; // Visitam o nest node. 
 		
 		
-		this.visitedNodes = new int[nbNodes]; // Array de nós visitados. Inicialmente, este array é inicializado a -1.
+		this.visitedNodes = new int[AntSimulator.getNbNode()]; // Array de nós visitados. Inicialmente, este array é inicializado a -1.
 		Arrays.fill(visitedNodes, -1);
 		
-		visitedNodes[nestNode] = nestNode;// Como a formiga já visitou a origem, é necessário atualizar no array.
+		visitedNodes[currentNode] = currentNode;// Como a formiga já visitou a origem, é necessário atualizar no array.
 		
-		this.edgesPath = new int[nbNodes - 1]; // Array que vai ter todas as edges do caminho para depois conseguir decrementar feromonas
+		this.edgesPath = new int[AntSimulator.getNbNode() - 1]; // Array que vai ter todas as edges do caminho para depois conseguir decrementar feromonas
 		
 		this.graph = graph;
 		
-		this.phLevelConst = phLevelConst;
-		this.alfa = alfa;
-		this.beta = beta;
-		this.delta = delta;
-		this.nestNode = nestNode;
-		this.nbNodes = nbNodes;
+		
 	}
 	
 	void setCurrentNode(int currentNode) {
 		this.currentNode = currentNode;
-	}
-
-	int getNbNodes() {
-		return nbNodes;
 	}
 
 	// verifica se já visitou o nó
@@ -70,20 +53,9 @@ public class Ant{
 		float pheromones = graph.getPheromonesFromEdge(edge);
 		int weight = graph.getWeightFromEdge(edge);
 		
-		return (alfa + pheromones)/(beta + weight );
-	}
-	
-	int getNestNode() {
-		return nestNode;
+		return (AntSimulator.getAlpha() + pheromones)/(AntSimulator.getBeta() + weight );
 	}
 
-	int getAlfa() {
-		return alfa;
-	}
-
-	int getBeta() {
-		return beta;
-	}
 	
 	void incrementNbVisitedNodes() {
 		this.nbVisitedNodes++;
@@ -117,7 +89,7 @@ public class Ant{
 	
 	double getNextEventTime(int edge) {
 		
-		double mean = this.delta * this.graph.getWeightFromEdge(edge);
+		double mean = AntSimulator.getDelta() * this.graph.getWeightFromEdge(edge);
 		double random = new java.util.Random().nextDouble();
 		
 		return Math.log(1 - random) * (-mean);
@@ -132,7 +104,7 @@ public class Ant{
 
 	void resetVisitedNodes() {
 		Arrays.fill(this.visitedNodes, -1);
-		this.visitedNodes[this.nestNode] = this.nestNode;
+		this.visitedNodes[AntSimulator.getNestNode()] = AntSimulator.getNestNode();
 	}
 
 	int[] getEdgesPath() {
@@ -152,7 +124,7 @@ public class Ant{
 		// adicionar feromonas
 		for(int i = 0; i < edgesPath.length ; i++) {
 			
-			float aux = (this.phLevelConst * this.currentWeight) / this.graph.getWeightFromEdge(edgesPath[i]);
+			float aux = (AntSimulator.getpLevel()* this.currentWeight) / this.graph.getWeightFromEdge(edgesPath[i]);
 			graph.addPheromonesFromEdge(edgesPath[i], aux);
 						
 		}

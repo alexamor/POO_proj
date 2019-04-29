@@ -15,6 +15,8 @@ public class Initializer {
 	int antColSize;
 	int nbNode;
 	int nestNode;
+	float alpha, beta, delta, eta, rho;
+	
 	
 	public Initializer() {}
 	
@@ -43,7 +45,7 @@ public class Initializer {
 		return output;
 	}
 	
-	public int getNbNodes() {
+	public int getNbNode() {
 		return nbNode;
 	}
 	
@@ -66,6 +68,31 @@ public class Initializer {
 	public int getNestNode() {
 		return nestNode;
 	}
+
+	public float getpLevel() {
+		return pLevel;
+	}
+
+	public float getAlpha() {
+		return alpha;
+	}
+
+	public float getBeta() {
+		return beta;
+	}
+
+	public float getDelta() {
+		return delta;
+	}
+
+	public float getEta() {
+		return eta;
+	}
+
+	public float getRho() {
+		return rho;
+	}
+	
 	
 	
 }

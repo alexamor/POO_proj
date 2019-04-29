@@ -10,11 +10,6 @@ public class PheromonedEdge extends Edge{
 		super(iNode, jNode, weight);
 	}
 	
-	public float getPherLevel()
-    {
-        return this.getPheromoneLevel();
-    }
-
 	public float getPheromoneLevel() {
 		return pheromoneLevel;
 	}

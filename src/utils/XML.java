@@ -13,10 +13,6 @@ import ants.PheromonedEdge;
 
 public class XML
 {
-    public double TIME_END;
-	public int ANT_COL_SIZE;
-	public boolean P_LEVEL;	
-
 	public static Initializer LoadXML(String xml_path) throws Exception 
 	{
 
@@ -64,6 +60,19 @@ public class XML
 			}
 			
 			init.edges = edges;
+			
+			NodeList moveInfo = doc.getElementsByTagName("move");
+			Node nodeM = moveInfo.item(0);
+			
+			init.alpha = Float.parseFloat(nodeM.getAttributes().getNamedItem("alpha").getNodeValue());
+			init.beta = Float.parseFloat(nodeM.getAttributes().getNamedItem("beta").getNodeValue());
+			init.delta = Float.parseFloat(nodeM.getAttributes().getNamedItem("delta").getNodeValue());
+			
+			NodeList evapInfo = doc.getElementsByTagName("evaporation");
+			Node nodeE = evapInfo.item(0);
+			
+			init.eta = Float.parseFloat(nodeE.getAttributes().getNamedItem("eta").getNodeValue());
+			init.rho = Float.parseFloat(nodeE.getAttributes().getNamedItem("rho").getNodeValue());
 			
 			return init;						
 		}
