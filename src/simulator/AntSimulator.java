@@ -3,6 +3,9 @@ package simulator;
 import graphHandler.Graph;
 import utils.Initializer;
 import utils.XML;
+
+import java.util.Arrays;
+
 import ants.*;
 
 
@@ -17,6 +20,8 @@ public class AntSimulator implements ISimulator{
 	static int nbNode;
 	static int nestNode;
 	static float alpha, beta, delta, eta, rho;
+	static int bestWeight;
+	static int[] bestPath;
 	
 	public static void main (String [] args)
 	{
@@ -47,6 +52,8 @@ public class AntSimulator implements ISimulator{
 			
 			}
 			
+			bestWeight = Integer.MAX_VALUE;
+			bestPath = new int[AntSimulator.nbNode];
 			
 			
 		} catch (Exception e) {
@@ -54,6 +61,7 @@ public class AntSimulator implements ISimulator{
 		}
 	}
 	
+
 	void getParameters(Initializer init) {
 		pLevel = init.getPLevel();
 		finalInst = init.getFinalInst();
@@ -113,6 +121,19 @@ public class AntSimulator implements ISimulator{
 
 	public static float getRho() {
 		return rho;
+	}
+
+	public static int getBestWeight() {
+		return bestWeight;
+	}
+
+	public static void setBestPath(int[] bestPath) {
+		AntSimulator.bestPath = bestPath;
+	}
+	
+	
+	public static void setBestWeight(int bestWeight) {
+		AntSimulator.bestWeight = bestWeight;
 	}
 
 	@Override
