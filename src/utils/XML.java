@@ -9,6 +9,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import graphHandler.Edge;
+import ants.PheromonedEdge;
 
 public class XML
 {
@@ -45,7 +46,7 @@ public class XML
 			init.startNode = Integer.parseInt(nodeG.getAttributes().getNamedItem("nestnode").getNodeValue()) - 1;
 					
 			//get edges
-			ArrayList<Edge> edges = new ArrayList<Edge>();		
+			ArrayList<PheromonedEdge> edges = new ArrayList<PheromonedEdge>();		
 			NodeList nodes = doc.getElementsByTagName("weight");
 			
 			for(int i=0; i< nodes.getLength(); i++) {
@@ -53,17 +54,16 @@ public class XML
 				Node nodeA = nodes.item(i);
 				Node nodeB = nodeA.getParentNode();
 								
-				Edge e = new Edge(
+				PheromonedEdge e = new PheromonedEdge(
 					Integer.parseInt(nodeB.getAttributes().getNamedItem("nodeidx").getNodeValue()) -1 ,
 					Integer.parseInt(nodeA.getAttributes().getNamedItem("targetnode").getNodeValue()) -1,
-					Integer.parseInt(nodeA.getTextContent()),
-					0
+					Integer.parseInt(nodeA.getTextContent())
 				);
 				
 				edges.add(e);
 			}
 			
-			init.Edges = edges;
+			init.edges = edges;
 			
 			return init;						
 		}

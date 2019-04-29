@@ -4,15 +4,13 @@ public class Edge
 {
     int iNode;
     int jNode;
-    int weight;
-    int pheromoneLevel;
+    private int weight;
 
-    public Edge (int i_NODE,int j_NODE, int WEIGHT, int PH)
+    public Edge (int iNode,int jNode, int weight)
     {
-        this.iNode = i_NODE;
-        this.jNode = j_NODE;
-        this.weight = WEIGHT;
-        this.pheromoneLevel = PH;
+        this.iNode = iNode;
+        this.jNode = jNode;
+        this.setWeight(weight);
     }
 
     public int getiNODE()
@@ -27,20 +25,23 @@ public class Edge
 
     public int getWEIGHT() 
     { 
-        return this.weight; 
+        return this.getWeight(); 
     }
 
-    public int getPH()
-    {
-        return this.pheromoneLevel;
-    }
 
     public String toString()
     {
     	return "[EDGE]\n\tiNode: " + this.iNode + 
     			"\n\tjNode: " + this.jNode + 
-    			"\n\tWeight: " + this.weight + 
-    			"\n\tPheromones: " + this.pheromoneLevel;  
+    			"\n\tWeight: " + this.getWeight();  
     }
+
+	public int getWeight() {
+		return weight;
+	}
+
+	public void setWeight(int weight) {
+		this.weight = weight;
+	}
 
 }

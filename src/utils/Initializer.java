@@ -2,12 +2,14 @@ package utils;
 
 import java.util.ArrayList;
 
+
 import graphHandler.Edge;
 import graphHandler.Graph;
+import ants.PheromonedEdge;
 
 public class Initializer {
 
-	ArrayList<Edge> Edges;
+	ArrayList<PheromonedEdge> edges;
 	
 	Double pLevel;
 	Double finalInst;
@@ -17,15 +19,15 @@ public class Initializer {
 	
 	public Initializer() {}
 	
-	public Initializer(ArrayList<Edge> Edges, double pLevel, double finalInst, int antColSize) {
+	public Initializer(ArrayList<PheromonedEdge> edges, double pLevel, double finalInst, int antColSize) {
 		this.pLevel = pLevel;
 		this.finalInst = finalInst;
 		this.antColSize = antColSize;
-		this.Edges = Edges;
+		this.edges = edges;
 	}
 	
 	public Graph CreateGraph() {	
-		Graph g = new Graph(nbNode, Edges);
+		Graph g = new Graph(nbNode, edges);
 		return g;
 	}
 
@@ -34,9 +36,9 @@ public class Initializer {
 		String output = "";
 		output = "[pLevel]: " + this.pLevel + "\n[FinalInst]: " + this.finalInst + "\n[AntColSize]: " + this.antColSize + "\n\n";
 		
-		for(int i=0; i<Edges.size(); i++) 
+		for(int i=0; i<edges.size(); i++) 
 		{
-			output += this.Edges.get(i).toString() + "\n";
+			output += this.edges.get(i).toString() + "\n";
 		}
 		
 		return output;
@@ -46,7 +48,7 @@ public class Initializer {
 		return nbNode;
 	}
 	
-	public ArrayList<Edge> getEdges(){
-		return Edges;
+	public ArrayList<PheromonedEdge> getEdges(){
+		return edges;
 	}
 }

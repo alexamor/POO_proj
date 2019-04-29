@@ -3,14 +3,17 @@ package graphHandler;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
+import ants.PheromonedEdge;
+
+
 public class Graph implements IGraph{
 	
 	int nbNodes;
 	ArrayList<LinkedList<Integer>> adjList = new ArrayList<LinkedList<Integer>>();
-	ArrayList<Edge> edges;
+	ArrayList<PheromonedEdge> edges;
 	
 
-	public Graph(int nbNodes, ArrayList<Edge> edges) {
+	public Graph(int nbNodes, ArrayList<PheromonedEdge> edges) {
 		this.nbNodes = nbNodes;
 		this.edges = edges;
 	}
@@ -54,17 +57,18 @@ public class Graph implements IGraph{
 	}
 
 	@Override
-	public Edge getEdge(int edge) {
-		return edges.get(edge);
+	public PheromonedEdge getEdge(int edge) {
+		return (PheromonedEdge) edges.get(edge);
 	}
+	
 	
 	public float getPheromonesFromEdge(int edge) {
-		return getEdge(edge).pheromoneLevel;
-		
+		return getEdge(edge).getPheromoneLevel();
 	}
 	
+	
 	public int getWeightFromEdge(int edge) {
-		return getEdge(edge).weight;
+		return getEdge(edge).getWeight();
 	}
 
 
