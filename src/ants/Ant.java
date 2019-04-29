@@ -76,13 +76,13 @@ public class Ant{
 			visitedNodes[aux] = -1;
 			aux = aux_next;
 			
-			System.out.println("nbVis " + nbVisitedNodes + " edge path " + /*edgesPath[nbVisitedNodes] + " size of " + */AntSimulator.getG().nrOfEdges());
+			//System.out.println("nbVis " + nbVisitedNodes + " edge path " + /*edgesPath[nbVisitedNodes] + " size of " + */AntSimulator.getG().nrOfEdges());
 			currentWeight -= AntSimulator.getG().getWeightFromEdge(edgesPath[nbVisitedNodes]);
 			nbVisitedNodes --;
 		}
 		
-		currentWeight -= AntSimulator.getG().getWeightFromEdge(chosenEdge);
-		nbVisitedNodes --;
+		//currentWeight -= AntSimulator.getG().getWeightFromEdge(chosenEdge);
+		//nbVisitedNodes --;
 	}
 	
 	public static double getNextEventTime(int edge) {
