@@ -11,6 +11,7 @@ public class AntMove extends Event {
 	// Cada evento de movimento de formiga está associado a uma formiga
 	private Ant ant;
 	private PEC pec;
+	static int nr = 0;
 
 	AntMove(Ant ant, double timestamp, PEC pec) {
 		super(timestamp);
@@ -155,6 +156,7 @@ public class AntMove extends Event {
 		//atualizar o weight
 		ant.addCurrentWeight(ant.graph.getWeightFromEdge(chosen_edge));
 		
+		nr++;		
 	}
 	
 	public double getRandom() {
@@ -179,6 +181,10 @@ public class AntMove extends Event {
 		}
 		
 		return aux;
+	}
+
+	public static int getNr() {
+		return nr;
 	}
 	
 	

@@ -11,7 +11,7 @@ public class QueueTest {
 		
 		queue.addEvent(new Observation(2f));
 		queue.addEvent(new Observation(5f));
-		queue.addEvent(new PheromoneEvap(4f));
+		//queue.addEvent(new PheromoneEvap(4f));
 		
 		Event aux;
 		
