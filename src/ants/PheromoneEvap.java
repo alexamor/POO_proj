@@ -11,7 +11,7 @@ public class PheromoneEvap extends Event{
 	static int nr = 0;
 	
 
-	public PheromoneEvap(float timestamp, PheromonedEdge edge, PEC pec) {
+	public PheromoneEvap(double timestamp, PheromonedEdge edge, PEC pec) {
 		super(timestamp);
 		this.edge = edge;
 		this.pec = pec;
@@ -24,17 +24,18 @@ public class PheromoneEvap extends Event{
 		
 		//Caso o nível de feromonas continue positivo agendar a próxima evaporação
 		if(edge.getPheromoneLevel() > 0)
-		{
-			float mean = AntSimulator.getEta();
-			double random = new java.util.Random().nextDouble();
-			float newTimestamp = (float) (timestamp + Math.log(1 - random) * (-mean));
-			
-			pec.addEvent(new PheromoneEvap(newTimestamp, edge, pec));	
-		}
+			pec.addEvent(new PheromoneEvap(getNewTimestamp(timestamp), edge, pec));	
 				
 	}
 
 	public static int getNr() {
 		return nr;
+	}
+	
+	public static double getNewTimestamp(double timestamp) {
+		float mean = AntSimulator.getEta();
+		double random = new java.util.Random().nextDouble();
+		double newTimestamp = timestamp + Math.log(1 - random) * (-mean);
+		return newTimestamp;
 	}
 }
