@@ -6,6 +6,10 @@ import simulator.AntSimulator;
 public class Ant{
 	
 	private int currentNode;
+	public int[] getVisitedNodes() {
+		return visitedNodes;
+	}
+
 	private int currentWeight;
 	private int nbVisitedNodes;
 	Graph graph;
@@ -73,8 +77,8 @@ public class Ant{
 		visitedNodes[this.currentNode] = nextNode;
 	}
 	
-	void revertCycle(int chosen_node) {
-		int aux = chosen_node;
+	void revertCycle(int chosenNode, int chosenEdge) {
+		int aux = chosenNode;
 		int aux_next;
 		while(visitedNodes[aux] != -1) {
 			aux_next = visitedNodes[aux];
@@ -85,6 +89,9 @@ public class Ant{
 			currentWeight -= graph.getWeightFromEdge(edgesPath[nbVisitedNodes]);
 			nbVisitedNodes --;
 		}
+		
+		currentWeight -= graph.getWeightFromEdge(chosenEdge);
+		nbVisitedNodes --;
 	}
 	
 	double getNextEventTime(int edge) {
