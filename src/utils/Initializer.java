@@ -10,17 +10,17 @@ public class Initializer {
 	ArrayList<Edge> Edges;
 	
 	Double pLevel;
-	Double FinalInst;
-	Integer AntColSize;
+	Double finalInst;
+	Integer antColSize;
 	int nbNode;
 	int startNode;
 	
 	public Initializer() {}
 	
-	public Initializer(ArrayList<Edge> Edges, double pLevel, double FinalInst, int AntColSize) {
+	public Initializer(ArrayList<Edge> Edges, double pLevel, double finalInst, int antColSize) {
 		this.pLevel = pLevel;
-		this.FinalInst = FinalInst;
-		this.AntColSize = AntColSize;
+		this.finalInst = finalInst;
+		this.antColSize = antColSize;
 		this.Edges = Edges;
 	}
 	
@@ -32,7 +32,7 @@ public class Initializer {
 	public String toString()
 	{
 		String output = "";
-		output = "[pLevel]: " + this.pLevel + "\n[FinalInst]: " + this.FinalInst + "\n[AntColSize]: " + this.AntColSize + "\n\n";
+		output = "[pLevel]: " + this.pLevel + "\n[FinalInst]: " + this.finalInst + "\n[AntColSize]: " + this.antColSize + "\n\n";
 		
 		for(int i=0; i<Edges.size(); i++) 
 		{

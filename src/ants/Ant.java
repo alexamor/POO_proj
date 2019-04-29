@@ -31,7 +31,7 @@ public class Ant{
 		this.visitedNodes = new int[nbNodes]; // Array de nós visitados. Inicialmente, este array é inicializado a -1.
 		Arrays.fill(visitedNodes, -1);
 		
-		visitedNodes[nestNode - 1 ] = nestNode - 1;// Como a formiga já visitou a origem, é necessário atualizar no array.
+		visitedNodes[nestNode] = nestNode;// Como a formiga já visitou a origem, é necessário atualizar no array.
 		
 		this.edgesPath = new int[nbNodes - 1]; // Array que vai ter todas as edges do caminho para depois conseguir decrementar feromonas
 		
@@ -128,7 +128,7 @@ public class Ant{
 
 	void resetVisitedNodes() {
 		Arrays.fill(this.visitedNodes, -1);
-		this.visitedNodes[this.nestNode - 1 ] = this.nestNode - 1;
+		this.visitedNodes[this.nestNode] = this.nestNode;
 	}
 
 	int[] getEdgesPath() {

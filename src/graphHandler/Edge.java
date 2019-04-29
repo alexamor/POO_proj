@@ -2,45 +2,45 @@ package graphHandler;
 
 public class Edge
 {
-    int i_NODE;
-    int j_NODE;
-    int WEIGHT;
-    int PH;
+    int iNode;
+    int jNode;
+    int weight;
+    int pheromoneLevel;
 
     public Edge (int i_NODE,int j_NODE, int WEIGHT, int PH)
     {
-        this.i_NODE = i_NODE;
-        this.j_NODE = j_NODE;
-        this.WEIGHT = WEIGHT;
-        this.PH = PH;
+        this.iNode = i_NODE;
+        this.jNode = j_NODE;
+        this.weight = WEIGHT;
+        this.pheromoneLevel = PH;
     }
 
     public int getiNODE()
     {
-        return this.i_NODE;
+        return this.iNode;
     }
 
     public int getjNode()
     {
-        return this.j_NODE;
+        return this.jNode;
     }
 
     public int getWEIGHT() 
     { 
-        return this.WEIGHT; 
+        return this.weight; 
     }
 
     public int getPH()
     {
-        return this.PH;
+        return this.pheromoneLevel;
     }
 
     public String toString()
     {
-    	return "[EDGE]\n\tiNode: " + this.i_NODE + 
-    			"\n\tjNode: " + this.j_NODE + 
-    			"\n\tWeight: " + this.WEIGHT + 
-    			"\n\tPheromones: " + this.PH;  
+    	return "[EDGE]\n\tiNode: " + this.iNode + 
+    			"\n\tjNode: " + this.jNode + 
+    			"\n\tWeight: " + this.weight + 
+    			"\n\tPheromones: " + this.pheromoneLevel;  
     }
 
 }

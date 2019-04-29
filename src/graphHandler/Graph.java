@@ -33,8 +33,8 @@ public class Graph implements IGraph{
 		//Add edges index to Lists
 		for(Edge edj : edges) {
 			//The -1 is due to the array starting in 0 and the nodes in 1
-			adjList.get(edj.i_NODE - 1).add(edj.j_NODE - 1);
-			adjList.get(edj.j_NODE - 1).add(edj.i_NODE - 1);
+			adjList.get(edj.iNode).add(edj.jNode);
+			adjList.get(edj.jNode).add(edj.iNode);
 		}
 	}
 
@@ -59,12 +59,12 @@ public class Graph implements IGraph{
 	}
 	
 	public float getPheromonesFromEdge(int edge) {
-		return getEdge(edge).PH;
+		return getEdge(edge).pheromoneLevel;
 		
 	}
 	
 	public int getWeightFromEdge(int edge) {
-		return getEdge(edge).WEIGHT;
+		return getEdge(edge).weight;
 	}
 
 

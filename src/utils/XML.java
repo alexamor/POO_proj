@@ -33,16 +33,16 @@ public class XML
 			NodeList header = doc.getElementsByTagName("simulation");
 			Node node = header.item(0);
 			
-			init.AntColSize = Integer.parseInt(node.getAttributes().getNamedItem("antcolsize").getNodeValue());
+			init.antColSize = Integer.parseInt(node.getAttributes().getNamedItem("antcolsize").getNodeValue());
 			init.pLevel = Double.valueOf(node.getAttributes().getNamedItem("plevel").getNodeValue());
-			init.FinalInst = Double.valueOf(node.getAttributes().getNamedItem("finalinst").getNodeValue());
+			init.finalInst = Double.valueOf(node.getAttributes().getNamedItem("finalinst").getNodeValue());
 			
 			//get nr of nodes and start node
 			NodeList graphInfo = doc.getElementsByTagName("graph");
 			Node nodeG = graphInfo.item(0);
 			
 			init.nbNode = Integer.parseInt(nodeG.getAttributes().getNamedItem("nbnodes").getNodeValue());
-			init.startNode = Integer.parseInt(nodeG.getAttributes().getNamedItem("nestnode").getNodeValue());
+			init.startNode = Integer.parseInt(nodeG.getAttributes().getNamedItem("nestnode").getNodeValue()) - 1;
 					
 			//get edges
 			ArrayList<Edge> edges = new ArrayList<Edge>();		
@@ -54,8 +54,8 @@ public class XML
 				Node nodeB = nodeA.getParentNode();
 								
 				Edge e = new Edge(
-					Integer.parseInt(nodeB.getAttributes().getNamedItem("nodeidx").getNodeValue()),
-					Integer.parseInt(nodeA.getAttributes().getNamedItem("targetnode").getNodeValue()),
+					Integer.parseInt(nodeB.getAttributes().getNamedItem("nodeidx").getNodeValue()) -1 ,
+					Integer.parseInt(nodeA.getAttributes().getNamedItem("targetnode").getNodeValue()) -1,
 					Integer.parseInt(nodeA.getTextContent()),
 					0
 				);
