@@ -57,7 +57,15 @@ public class Ant{
 	}
 
 	public int getNbVisitedNodes() {
-		return nbVisitedNodes;
+		//return nbVisitedNodes;
+		int nbVis = 0;
+		
+		for(int i = 0; i < AntSimulator.getNbNode(); i++) {
+			if(visitedNodes[i] != -1)
+				nbVis++;
+		}
+		
+		return nbVis;
 	}
 	
 	public void addEdgesPath(int index, int edge) {
@@ -77,22 +85,21 @@ public class Ant{
 			aux = aux_next;
 			
 			//System.out.println("nbVis " + nbVisitedNodes + " edge path " + /*edgesPath[nbVisitedNodes] + " size of " + */AntSimulator.getG().nrOfEdges());
-			currentWeight -= AntSimulator.getG().getWeightFromEdge(edgesPath[nbVisitedNodes]);
+			currentWeight -= AntSimulator.getG().getWeightFromEdge(edgesPath[getNbVisitedNodes()]);
 			nbVisitedNodes --;
 		}
 		
-		//currentWeight -= AntSimulator.getG().getWeightFromEdge(chosenEdge);
-		//nbVisitedNodes --;
+		visitedNodes[aux] = -1;
+		currentWeight -= AntSimulator.getG().getWeightFromEdge(chosenEdge);
+		nbVisitedNodes --;
 	}
 	
-	public static double getNextEventTime(int edge) {
+	public static double getNextEventTime(int edge, double ts) {
 		
 		double mean = AntSimulator.getDelta() * AntSimulator.getG().getWeightFromEdge(edge);
 		double random = new java.util.Random().nextDouble();
 		
-		return Math.log(1 - random) * (-mean);
-		
-		
+		return (ts + Math.log(1 - random) * (-mean));
 	}
 
 	public void resetNbVisitedNodes() {

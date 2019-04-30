@@ -26,9 +26,9 @@ public class AntMove extends Event {
 	public void simulateEvent() {
 		
 		
-		int nbNonvisitedNodes = 0, adjacent = 0, auxEdge = 0, chosenEdge = 0;
+		int nbNonVisitedNodes = 0, adjacent = 0, auxEdge = 0, chosenEdge = 0;
 		int hasNestNode = -1;
-		LinkedList<Integer> adjacentNodes = null; //vetor de inteiros que apontam para as edges dos adjacentes
+		LinkedList<Integer> adjacentEdges = null; //vetor de inteiros que apontam para as edges dos adjacentes
 		LinkedList<Integer> nonVisitedNodes = null; //vetor com edges de nós não visitados
 		LinkedList<Double> edgesCost = null;
 		Double[] edgesProbability = null;
@@ -36,14 +36,17 @@ public class AntMove extends Event {
 		int nextNode = 0;
 		double cost, totalCost = 0;
 		double nextEventTime;
+		boolean hasRevertedCycle = false;
 		
-		System.out.println("Visitados: " + Arrays.toString(ant.getVisitedNodes()));
+		//System.out.println("\nVisitados: " + Arrays.toString(ant.getVisitedNodes()));
 	
 		
 		// verificar se encontrou um ciclo
-		if(ant.getCurrentNode() == AntSimulator.getNestNode() && AntSimulator.getNbNode() == ant.getNbVisitedNodes()) {
+		if((ant.getCurrentNode() == AntSimulator.getNestNode()) && (AntSimulator.getNbNode() == ant.getNbVisitedNodes())) {
 			
 			ant.increasePheromones();
+			
+			System.out.println("Chegou: " + Arrays.toString(ant.getVisitedNodes()));
 			
 			if(ant.getCurrentWeight() < AntSimulator.getBestWeight()) {
 				AntSimulator.setBestPath(ant.getVisitedNodes());
@@ -52,7 +55,7 @@ public class AntMove extends Event {
 			
 			for(int i=0; i < ant.getEdgesPath().length; i++) {
 				double evapTimestamp = PheromoneEvap.getNewTimestamp(this.timestamp);
-				if(evapTimestamp <= AntSimulator.getFinalInst()) {
+				if(evapTimestamp < AntSimulator.getFinalInst()) {
 					PheromonedEdge evapEdge = ant.getEdgeFromIndex(i);
 					AntSimulator.getPec().addEvent(new PheromoneEvap(evapTimestamp, evapEdge) );
 				}
@@ -67,69 +70,71 @@ public class AntMove extends Event {
 		
 		
 		// obter nós adjacentes
-		adjacentNodes = AntSimulator.getG().getAdjacentNodes(currentNode);
+		adjacentEdges = AntSimulator.getG().getAdjacentEdges(currentNode);
 		
-		System.out.println("\nAtual: " + currentNode);
-		System.out.println("Adj: " + Arrays.toString(adjacentNodes.toArray()));
+		//System.out.println("Atual: " + currentNode);
+		//System.out.println("Adj: " + Arrays.toString(adjacentEdges.toArray()));
 		
-		for(ListIterator<Integer> i=adjacentNodes.listIterator(); i.hasNext();) {
-			adjacent = i.next(); // obter próxima edge
+		for(ListIterator<Integer> i=adjacentEdges.listIterator(); i.hasNext();) {
+			auxEdge = i.next(); // obter próxima edge
 			//TODO é obter a aresta a partir do adjacente
-			auxEdge = AntSimulator.getG().getAdjacentFromEdge(currentNode, adjacent); //obter o adjacente tendo em conta a aresta
+			adjacent = AntSimulator.getG().getAdjacentFromEdge(currentNode, auxEdge); //obter o adjacente tendo em conta a aresta
 		
 			// se a formiga ainda não visitou este nó, adiciona-se à lista de nós não visitados e calcula-se o seu custo
 			if(!ant.hasVisited( adjacent ) ) {
-				if(nbNonvisitedNodes == 0) { //cria novas listas se for o primeiro nó não visitado
+				if(nbNonVisitedNodes == 0) { //cria novas listas se for o primeiro nó não visitado
 					nonVisitedNodes = new LinkedList<Integer>();
 					edgesCost = new LinkedList<Double>(); 
 				}
-				nbNonvisitedNodes ++; // incrementa o nr de nós não visitados
-				nonVisitedNodes.addLast(adjacent); //adiciona a aresta à lista
+				nbNonVisitedNodes ++; // incrementa o nr de nós não visitados
+				nonVisitedNodes.addLast(auxEdge); //adiciona a aresta à lista
 				
 				cost = ant.getCostijk(auxEdge); //calcula o custo Cijk
 				edgesCost.addLast(cost); //adiciona o custo à sua lista
 				totalCost += ant.getCostijk(auxEdge); // incrementa o custo total
 				
-				System.out.print("not visited  ");
+				//System.out.print("not visited  ");
 				
 			}
 			else {
 				if (adjacent == AntSimulator.getNestNode())
 					hasNestNode = auxEdge;
 				
-				System.out.print("visited  ");
+				//System.out.print("visited  ");
 			}
 			
-			System.out.println("aux: " + adjacent);
+			//System.out.println("adjCode: " + adjacent);
 			
 	
 		}
 		
-		System.out.println("Visitados: " + Arrays.toString(ant.getVisitedNodes()));
+		//System.out.println("Visitados: " + Arrays.toString(ant.getVisitedNodes()));
 		
-		if(nbNonvisitedNodes != 0)
-			System.out.println("Nao visitados: " + Arrays.toString(nonVisitedNodes.toArray()) + "  #" + nbNonvisitedNodes);
+		//if(nbNonVisitedNodes != 0)
+			//System.out.println("Nao visitados: " + Arrays.toString(nonVisitedNodes.toArray()) + "  #" + nbNonVisitedNodes);
 		
 		//caso apenas tenha nós já visitados
-		if(nbNonvisitedNodes == 0) {
+		if(nbNonVisitedNodes == 0) {
 			//caso tenha a origem como adjacente e já tenha visitado todos os nós anteriores, o próximo nó é a origem
-			if((hasNestNode != -1) && (ant.getNbVisitedNodes() == (AntSimulator.getNbNode()))) {
+			if((hasNestNode != -1) && (ant.getNbVisitedNodes() == (AntSimulator.getNbNode() - 1))) {
 					nextNode = AntSimulator.getNestNode();
 					chosenEdge = hasNestNode;
+					
+					System.out.println("A seguir acaba: " + Arrays.toString(ant.getVisitedNodes()));
 			}
 			else {
 				// numero de adjacentes
-				int nbAdjacents = adjacentNodes.size();
+				int nbAdjacents = adjacentEdges.size();
 				if(hasNestNode != -1)
 					nbAdjacents --;
 				
-				edgesProbability = new Double[adjacentNodes.size()];
-				Iterator<Integer> iIterator = adjacentNodes.listIterator();		
+				edgesProbability = new Double[adjacentEdges.size()];
+				Iterator<Integer> iIterator = adjacentEdges.listIterator();		
 				
 				// caclcula a probabilidade uniforme de cada aresta, a origem tem probabilidade = 0
-				for(int i = 0; i< adjacentNodes.size(); i++) {
+				for(int i = 0; i< adjacentEdges.size(); i++) {
 					int origin = iIterator.next();
-					if(origin == AntSimulator.getNestNode() )
+					if(AntSimulator.getG().getAdjacentFromEdge(currentNode, origin) == AntSimulator.getNestNode() )
 						edgesProbability[i] = 0.0;
 					else 
 						edgesProbability[i] = (double) 1/nbAdjacents;
@@ -138,12 +143,13 @@ public class AntMove extends Event {
 				
 				// escolha do próximo nó, tendo em conta a probabilidade uniforme de cada um
 				chosenEdge = this.getChosenNode(edgesProbability); // retorna o indice no vetor de probabilidades
-				nextNode = AntSimulator.getG().getAdjacentFromEdge(ant.getCurrentNode(), adjacentNodes.get(chosenEdge));
+				nextNode = AntSimulator.getG().getAdjacentFromEdge(ant.getCurrentNode(), adjacentEdges.get(chosenEdge));
 				
-				System.out.println("Probab: " + Arrays.toString(edgesProbability) + "-> Chosen " + nextNode);
+				//System.out.println("Probab: " + Arrays.toString(edgesProbability) + "-> Chosen " + nextNode);
 				
 				//reverter o ciclo 
 				ant.revertCycle(nextNode, chosenEdge);
+				hasRevertedCycle = true;
 				
 				
 			}
@@ -152,7 +158,7 @@ public class AntMove extends Event {
 		else {
 			
 			//caso só exista um nó para visitar, vai obrigatoriamente para esse
-			if( nbNonvisitedNodes == 1) {
+			if( nbNonVisitedNodes == 1) {
 				chosenEdge = nonVisitedNodes.getFirst();
 				//TODO nextNode e chosenEdge estao trocados e é get edge from adjacents
 				nextNode = AntSimulator.getG().getAdjacentFromEdge(currentNode, nonVisitedNodes.getFirst());
@@ -160,9 +166,9 @@ public class AntMove extends Event {
 			//calcula a probabilidade de cada nó
 			else {
 				
-				edgesProbability = new Double[nbNonvisitedNodes];
+				edgesProbability = new Double[nbNonVisitedNodes];
 				Iterator<Double> dIterator = edgesCost.listIterator();				
-				for(int i = 0; i< nbNonvisitedNodes; i++) {
+				for(int i = 0; i< nbNonVisitedNodes; i++) {
 					edgesProbability[i] = (double) dIterator.next()/totalCost;	//Cijk/Ci
 				}
 				
@@ -170,13 +176,11 @@ public class AntMove extends Event {
 				chosenEdge = this.getChosenNode(edgesProbability); // retorna o indice no vetor de probabilidades
 				nextNode = AntSimulator.getG().getAdjacentFromEdge(ant.getCurrentNode(), nonVisitedNodes.get(chosenEdge));
 				
-				System.out.println("Probab: " + Arrays.toString(edgesProbability) + "-> Chosen " + nextNode);
+				//System.out.println("Probab: " + Arrays.toString(edgesProbability) + "-> Chosen " + nextNode);
 			}
 			
 			
 			//adiciona a Edge no vetor, tendo em conta o nr de nós visitados
-			//System.out.println("nbVisitedNodes:" + ant.getNbVisitedNodes());
-			//System.out.println("nbVN  " + ant.getNbVisitedNodes());
 			ant.addEdgesPath(ant.getNbVisitedNodes(), chosenEdge);
 			
 		}
@@ -184,24 +188,28 @@ public class AntMove extends Event {
 		
 		
 		// verifica se o timestamp do prox evento é depois do final da simulação. se for, nao adiciona ao pec
-		nextEventTime = Ant.getNextEventTime(chosenEdge);
-		if(nextEventTime <= AntSimulator.getFinalInst()) {
+		nextEventTime = Ant.getNextEventTime(chosenEdge, timestamp);
+		if(nextEventTime < AntSimulator.getFinalInst()) {
 			
 			// adicionar o evento do proximo movimento da formiga
 			AntSimulator.getPec().addEvent(new AntMove(this.ant, nextEventTime));
-
-			// atualizar o current node
-			ant.addVisitedNode(nextNode);
+			
+			
+			if(!hasRevertedCycle)
+			{
+				// atualizar o current node
+				ant.addVisitedNode(nextNode);
+				
+				
+				
+				// incrementa o nr de nós visitados
+				ant.incrementNbVisitedNodes();
+				//atualizar o weight
+				ant.addCurrentWeight(AntSimulator.getG().getWeightFromEdge(chosenEdge));
+			}
+			
 			ant.setCurrentNode(nextNode);
-			
-			
-			// incrementa o nr de nós visitados
-			ant.incrementNbVisitedNodes();
-			//atualizar o weight
-			ant.addCurrentWeight(AntSimulator.getG().getWeightFromEdge(chosenEdge));
-			
-			System.out.println("node " + nextNode + "  Vis " + ant.getNbVisitedNodes() + " Origin"  + AntSimulator.getNestNode());
-			
+
 		}
 		
 		

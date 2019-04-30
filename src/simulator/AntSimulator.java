@@ -3,6 +3,9 @@ package simulator;
 import graphHandler.Graph;
 import utils.Initializer;
 import utils.XML;
+
+import java.util.Arrays;
+
 import ants.*;
 import eventHandler.Event;
 import eventHandler.PEC;
@@ -144,7 +147,7 @@ public class AntSimulator implements ISimulator{
 	}
 
 	public static void setBestPath(int[] bestPath) {
-		AntSimulator.bestPath = bestPath;
+		AntSimulator.bestPath = Arrays.copyOf(bestPath, bestPath.length);
 	}
 	
 	
@@ -159,10 +162,13 @@ public class AntSimulator implements ISimulator{
 	
 	public static String getBestPath() {
 		int aux = AntSimulator.nestNode;
+		
 		String s = "{";
 		
 		s += (aux + 1);
+		s += ",";
 		aux = AntSimulator.bestPath[aux];
+		
 		
 		for(int i = 0; i< AntSimulator.bestPath.length - 2; i++) {
 			
@@ -172,7 +178,7 @@ public class AntSimulator implements ISimulator{
 			aux = AntSimulator.bestPath[aux];
 		}
 		
-		s += AntSimulator.bestPath[aux] + 1;
+		s += (aux + 1);
 		s += "}";
 		
 		return s;

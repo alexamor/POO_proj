@@ -19,7 +19,7 @@ public class Graph implements IGraph{
 	}
 
 	@Override
-	public LinkedList<Integer> getAdjacentNodes(int node) {
+	public LinkedList<Integer> getAdjacentEdges(int node) {
 		return adjList.get(node);
 	}
 
@@ -33,11 +33,13 @@ public class Graph implements IGraph{
 			adjList.add(new LinkedList<Integer>());
 		}
 		
+		i = 0;
+		
 		//Add edges index to Lists
 		for(Edge edj : edges) {
-			//The -1 is due to the array starting in 0 and the nodes in 1
-			adjList.get(edj.iNode).add(edj.jNode);
-			adjList.get(edj.jNode).add(edj.iNode);
+			adjList.get(edj.iNode).add(i);
+			adjList.get(edj.jNode).add(i);
+			i++;
 		}
 	}
 

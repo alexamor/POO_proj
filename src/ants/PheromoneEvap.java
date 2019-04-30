@@ -24,7 +24,9 @@ public class PheromoneEvap extends Event{
 		double newTimestamp = getNewTimestamp(timestamp);
 		
 		if(edge.getPheromoneLevel() > 0 && newTimestamp < AntSimulator.getFinalInst())
-			AntSimulator.getPec().addEvent(new PheromoneEvap(newTimestamp, edge));	
+			AntSimulator.getPec().addEvent(new PheromoneEvap(newTimestamp, edge));
+		
+		nr++;
 				
 	}
 

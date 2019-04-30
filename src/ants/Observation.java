@@ -25,8 +25,11 @@ public class Observation extends Event{
 		System.out.println("                Number of evaporation events:  " + PheromoneEvap.getNr());
 		System.out.println("                Hamiltonian cycle:             " + AntSimulator.getBestPath());
 		
-		if(nr < 20)
+		if(nr < 20) {
+			//System.out.println("NextAgended  " + (timestamp + AntSimulator.getFinalInst()/20));
+			
 			AntSimulator.getPec().addEvent(new Observation(timestamp + AntSimulator.getFinalInst()/20));
+		}
 		
 		nr++;
 	}
