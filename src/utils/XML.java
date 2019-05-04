@@ -8,42 +8,46 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import graphHandler.Edge;
 import ants.PheromonedEdge;
 
 public class XML
 {
+	
+	/* TODO
+	 * 	Possivelmente colocar o doc como atributo da classe para não o estar sempre a passar aos metodos auxiliares (?)
+	 *  Possivelmente criar um dicionario com as excepções numa especie de app.config parametrizavel (?)
+	 *  Partir o LoadXML em getsimulationdata(), getgraphnodes(), getedges(), geteventos() (?)
+	 */
+		
 	public static Initializer LoadXML(String xml_path) throws Exception 
 	{
 
 		String path = xml_path; 
+		Initializer init = new Initializer();
 		
 		try {
 			
+			//LOAD XML
 			DocumentBuilderFactory fact = DocumentBuilderFactory.newInstance();
 			DocumentBuilder builder = fact.newDocumentBuilder();
 			org.w3c.dom.Document doc = builder.parse(new File(path));
- 
-			Initializer init = new Initializer();
-			
-			// get common data
-			NodeList header = doc.getElementsByTagName("simulation");
+ 			
+			// GET SIMULATION DATA
+			NodeList header = getNodeList("simulation", doc);
 			Node node = header.item(0);
+			init.antColSize = getAntColSize(node);
+			init.pLevel = getpLevel(node);
+			init.finalInst = getFinalInst(node);
 			
-			init.antColSize = Integer.parseInt(node.getAttributes().getNamedItem("antcolsize").getNodeValue());
-			init.pLevel = Float.valueOf(node.getAttributes().getNamedItem("plevel").getNodeValue());
-			init.finalInst = Float.valueOf(node.getAttributes().getNamedItem("finalinst").getNodeValue());
-			
-			//get nr of nodes and start node
-			NodeList graphInfo = doc.getElementsByTagName("graph");
+			//GET GRAPH NODES
+			NodeList graphInfo = getNodeList("graph", doc); 
 			Node nodeG = graphInfo.item(0);
-			
-			init.nbNode = Integer.parseInt(nodeG.getAttributes().getNamedItem("nbnodes").getNodeValue());
-			init.nestNode = Integer.parseInt(nodeG.getAttributes().getNamedItem("nestnode").getNodeValue()) - 1;
+			init.nbNode = getnbNodes(nodeG);
+			init.nestNode = getNestNode(nodeG); 
 					
-			//get edges
+			//GET EDGES
 			ArrayList<PheromonedEdge> edges = new ArrayList<PheromonedEdge>();		
-			NodeList nodes = doc.getElementsByTagName("weight");
+			NodeList nodes = getNodeList("weight", doc);
 			
 			for(int i=0; i< nodes.getLength(); i++) {
 				
@@ -51,34 +55,130 @@ public class XML
 				Node nodeB = nodeA.getParentNode();
 								
 				PheromonedEdge e = new PheromonedEdge(
-					Integer.parseInt(nodeB.getAttributes().getNamedItem("nodeidx").getNodeValue()) -1 ,
-					Integer.parseInt(nodeA.getAttributes().getNamedItem("targetnode").getNodeValue()) -1,
-					Integer.parseInt(nodeA.getTextContent())
+					getNodeIDX(nodeB),
+					getTargetNode(nodeA),
+					getEdgeWeight(nodeA)
 				);
-				
 				edges.add(e);
 			}
 			
 			init.edges = edges;
 			
-			NodeList moveInfo = doc.getElementsByTagName("move");
+			
+			//GET EVENTOS			
+			//MOVE
+			NodeList moveInfo = getNodeList("move", doc);
 			Node nodeM = moveInfo.item(0);
+			init.alpha = getAlpha(nodeM); 	
+			init.beta = getBeta(nodeM); 
+			init.delta = getDelta(nodeM);
 			
-			init.alpha = Float.parseFloat(nodeM.getAttributes().getNamedItem("alpha").getNodeValue());
-			init.beta = Float.parseFloat(nodeM.getAttributes().getNamedItem("beta").getNodeValue());
-			init.delta = Float.parseFloat(nodeM.getAttributes().getNamedItem("delta").getNodeValue());
-			
-			NodeList evapInfo = doc.getElementsByTagName("evaporation");
+			//EVAPORATION
+			NodeList evapInfo = getNodeList("evaporation", doc);
 			Node nodeE = evapInfo.item(0);
-			
-			init.eta = Float.parseFloat(nodeE.getAttributes().getNamedItem("eta").getNodeValue());
-			init.rho = Float.parseFloat(nodeE.getAttributes().getNamedItem("rho").getNodeValue());
+			init.eta = getETA(nodeE);
+			init.rho = getRHO(nodeE);
 			
 			return init;						
 		}
 		catch (Exception e) { 
-			throw new Exception(e);
+			throw new Exception("PARSER - GRAFO INVÁLIDO: " + e);
 		} 
+	}
+	
+	public static int getAntColSize(Node node) throws Exception 
+	{
+		int antcolsize = Integer.parseInt(getNodeValue("antcolsize", node));		
+		if (antcolsize < 0) 
+		{ 
+			throw new Exception ("antcolsize must be >= 0"); 
+		}		
+		return antcolsize;
+	}
+	
+	public static float getpLevel(Node node)
+	{
+		return Float.valueOf(getNodeValue("plevel", node));
+	}
+	
+	public static float getFinalInst(Node node) throws Exception
+	{
+		float finalinst = Float.valueOf(getNodeValue("finalinst", node));		
+		if (finalinst <= 0)
+		{
+			throw new Exception("finalinst must be >= 0");
+		}				
+		return finalinst;
+	}
+	
+	public static int getnbNodes(Node node)
+	{
+		return Integer.parseInt(getNodeValue("nbnodes", node));
+	}
+	
+	public static int getNestNode(Node node)
+	{
+		return Integer.parseInt(getNodeValue("nestnode", node));
+	}
+	
+	public static float getAlpha(Node node)
+	{
+		return Float.valueOf(getNodeValue("alpha", node));
+	}
+	
+	public static float getBeta(Node node)
+	{
+		return Float.valueOf(getNodeValue("beta", node));
+	}
+	
+	public static float getDelta(Node node)
+	{
+		return Float.valueOf(getNodeValue("delta", node));
+	}
+	
+	public static float getRHO(Node node)
+	{
+		return Float.valueOf(getNodeValue("rho", node));
+	}
+	
+	public static float getETA(Node node)
+	{
+		return Float.valueOf(getNodeValue("eta", node));
+	}
+	
+	public static int getNodeIDX(Node node) throws Exception
+	{
+		int nodeidx = Integer.parseInt(getNodeValue("nodeidx", node));
+		if(nodeidx < 1)
+		{
+			throw new Exception("node must be > 0");
+		}		
+		return nodeidx;
+	}
+	
+	public static int getTargetNode(Node node) throws Exception
+	{
+		int targetnode = Integer.parseInt(getNodeValue("targetnode", node));
+		if(targetnode < 1)
+		{
+			throw new Exception("node must be > 0");
+		}		
+		return targetnode;
+	}
+	
+	public static int getEdgeWeight(Node node)
+	{
+		return Integer.parseInt(node.getTextContent());
+	}
+	
+	public static NodeList getNodeList(String TagName, org.w3c.dom.Document doc)
+	{
+		return doc.getElementsByTagName(TagName);
+	}
+	
+	public static String getNodeValue(String Name, Node node)
+	{
+		return (node.getAttributes().getNamedItem(Name).getNodeValue());
 	}
 	
 }

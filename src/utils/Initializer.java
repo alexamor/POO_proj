@@ -1,10 +1,9 @@
 package utils;
 
 import java.util.ArrayList;
-
-
 import graphHandler.Graph;
 import ants.PheromonedEdge;
+import java.lang.reflect.Field;
 
 public class Initializer {
 
@@ -31,18 +30,37 @@ public class Initializer {
 		Graph g = new Graph(nbNode, edges);
 		return g;
 	}
-
+	
 	public String toString()
 	{
-		String output = "";
-		output = "[pLevel]: " + this.pLevel + "\n[FinalInst]: " + this.finalInst + "\n[AntColSize]: " + this.antColSize + "\n\n";
+		StringBuilder output = new StringBuilder();
+		String newline = System.getProperty("line.separator");
 		
-		for(int i=0; i<edges.size(); i++) 
+		Field[] fields = this.getClass().getDeclaredFields();
+		
+		//PRINT FIELDS
+		for(Field field : fields)
 		{
-			output += this.edges.get(i).toString() + "\n";
+			try 
+			{
+				if (field.getName() != "edges")
+				{
+					output.append("[" + field.getName().toUpperCase() + "]: " + field.get(this) + newline);
+				}
+			} 
+			catch (IllegalArgumentException e) { e.printStackTrace(); } 
+			catch (IllegalAccessException e) { e.printStackTrace(); }
 		}
 		
-		return output;
+		output.append(newline);
+		
+		//PRINT EDGES
+		for(int i=0; i<edges.size(); i++) 
+		{
+			output.append(this.edges.get(i).toString() + newline);
+		}
+		
+		return output.toString();
 	}
 	
 	public int getNbNode() {
