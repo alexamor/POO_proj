@@ -47,6 +47,9 @@ public class AntMove extends Event {
 			ant.increasePheromones();
 			
 			System.out.println("Chegou: " + Arrays.toString(ant.getVisitedNodes()));
+			System.out.println("Peso : "+ ant.getCurrentWeight());
+			ant.setCurrentWeight();
+			System.out.println("Peso 2: " + ant.getCurrentWeight());
 			
 			if(ant.getCurrentWeight() < AntSimulator.getBestWeight()) {
 				AntSimulator.setBestPath(ant.getVisitedNodes());
@@ -182,6 +185,7 @@ public class AntMove extends Event {
 			
 			//adiciona a Edge no vetor, tendo em conta o nr de nós visitados
 			ant.addEdgesPath(ant.getNbVisitedNodes(), chosenEdge);
+			ant.setCurrentWeight();
 			
 		}
 		
@@ -209,6 +213,8 @@ public class AntMove extends Event {
 			}
 			
 			ant.setCurrentNode(nextNode);
+			ant.setCurrentWeight();
+			
 
 		}
 		

@@ -1,4 +1,6 @@
-<simulation finalinst="1.0" antcolsize="2" plevel="0.5">
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE simulation SYSTEM "simulation.dtd">
+<simulation finalinst="50000" antcolsize="10" plevel="0.5">
     <graph nbnodes="10" nestnode="2">
         <node nodeidx="1">
             <weight targetnode="2">3</weight>
@@ -29,7 +31,10 @@
             <weight targetnode="8">2</weight>
             <weight targetnode="9">2</weight> 
             <weight targetnode="10">6</weight>  
-    	</node>  
+    	</node>
+    	<node nodeidx="8">
+    		<weight targetnode="9">2</weight> 
+        </node>  
         <node nodeidx="9">
             <weight targetnode="10">4</weight> 
     	</node> 

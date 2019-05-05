@@ -146,6 +146,19 @@ public class Ant{
 	}
 
 	
+	public int calculateWeight( ) {
+		
+		return currentWeight;
+	}
+
+	void setCurrentWeight() {
+		this.currentWeight = 0;
+		for(int i = 0; i< this.getNbVisitedNodes(); i++) {
+			currentWeight += AntSimulator.getG().getWeightFromEdge(edgesPath[i]);
+		}
+		this.currentWeight = currentWeight;
+	}
+	
 	
 	
 	
