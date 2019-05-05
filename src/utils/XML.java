@@ -13,11 +13,6 @@ import ants.PheromonedEdge;
 public class XML
 {
 	
-	/* TODO
-	 * 	Possivelmente colocar o doc como atributo da classe para n�o o estar sempre a passar aos metodos auxiliares (?)
-	 *  Possivelmente criar um dicionario com as excep��es numa especie de app.config parametrizavel (?)
-	 *  Partir o LoadXML em getsimulationdata(), getgraphnodes(), getedges(), geteventos() (?)
-	 */
 		
 	public static Initializer LoadXML(String xml_path) throws Exception 
 	{

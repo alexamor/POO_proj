@@ -47,7 +47,7 @@ public class AntMove extends Event {
 			
 		
 			ant.setCurrentWeight();
-			ant.increasePheromones();
+			
 			
 			if(ant.getCurrentWeight() < AntSimulator.getBestWeight()) {
 				AntSimulator.setBestPath(ant.getVisitedNodes());
@@ -55,9 +55,9 @@ public class AntMove extends Event {
 			}
 			
 			for(int i=0; i < ant.getEdgesPath().length; i++) {
+				
 				int aux = ant.getEdgesPathi(i);
-				if(AntSimulator.getG().getPheromonesFromEdge(aux) > 0) {
-
+				if(AntSimulator.getG().getPheromonesFromEdge(aux) == 0) {
 					double evapTimestamp = PheromoneEvap.getNewTimestamp(this.timestamp);
 					if(evapTimestamp < AntSimulator.getFinalInst()) {
 						PheromonedEdge evapEdge = ant.getEdgeFromIndex(aux);
@@ -67,12 +67,11 @@ public class AntMove extends Event {
 				
 				
 			}
+			ant.increasePheromones();
 			//reset dos nós visitados e do nr de nós visitados.
 			ant.resetNbVisitedNodes();
 			ant.resetVisitedNodes();
 		}
-		
-		
 		
 		
 		// obter nós adjacentes
@@ -83,7 +82,6 @@ public class AntMove extends Event {
 		
 		for(ListIterator<Integer> i=adjacentEdges.listIterator(); i.hasNext();) {
 			auxEdge = i.next(); // obter próxima edge
-			//TODO é obter a aresta a partir do adjacente
 			adjacent = AntSimulator.getG().getAdjacentFromEdge(currentNode, auxEdge); //obter o adjacente tendo em conta a aresta
 		
 			// se a formiga ainda não visitou este nó, adiciona-se à lista de nós não visitados e calcula-se o seu custo
@@ -164,7 +162,6 @@ public class AntMove extends Event {
 			//caso só exista um nó para visitar, vai obrigatoriamente para esse
 			if( nbNonVisitedNodes == 1) {
 				chosenEdge = nonVisitedNodes.getFirst();
-				//TODO nextNode e chosenEdge estao trocados e é get edge from adjacents
 				nextNode = AntSimulator.getG().getAdjacentFromEdge(currentNode, nonVisitedNodes.getFirst());
 			}
 			//calcula a probabilidade de cada nó
@@ -202,9 +199,8 @@ public class AntMove extends Event {
 				// atualizar o current node
 				ant.addVisitedNode(nextNode);
 				
-				
-				
 				// incrementa o nr de nós visitados
+
 				ant.incrementNbVisitedNodes();
 				//atualizar o weight
 				
