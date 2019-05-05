@@ -81,5 +81,18 @@ public class Graph implements IGraph{
 	public int nrOfEdges() {
 		return edges.size();
 	}
+	
+	public int getEdgeFromNodes(int nodeI, int nodeJ) {
+		LinkedList<Integer> auxEdges = getAdjacentEdges(nodeI);
+		int aux = 0;
+		for(int i = 0; i< auxEdges.size(); i++) {
+			aux = auxEdges.get(i);
+			if((this.edges.get(aux).jNode == nodeJ) || (this.edges.get(aux).iNode == nodeJ))
+				return aux;
+				
+		}
+		return -1;
+		
+	}
 
 }

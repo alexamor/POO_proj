@@ -44,12 +44,10 @@ public class AntMove extends Event {
 		// verificar se encontrou um ciclo
 		if((ant.getCurrentNode() == AntSimulator.getNestNode()) && (AntSimulator.getNbNode() == ant.getNbVisitedNodes())) {
 			
-			ant.increasePheromones();
 			
-			System.out.println("Chegou: " + Arrays.toString(ant.getVisitedNodes()));
-			System.out.println("Peso : "+ ant.getCurrentWeight());
+		
 			ant.setCurrentWeight();
-			System.out.println("Peso 2: " + ant.getCurrentWeight());
+			ant.increasePheromones();
 			
 			if(ant.getCurrentWeight() < AntSimulator.getBestWeight()) {
 				AntSimulator.setBestPath(ant.getVisitedNodes());
@@ -57,11 +55,16 @@ public class AntMove extends Event {
 			}
 			
 			for(int i=0; i < ant.getEdgesPath().length; i++) {
-				double evapTimestamp = PheromoneEvap.getNewTimestamp(this.timestamp);
-				if(evapTimestamp < AntSimulator.getFinalInst()) {
-					PheromonedEdge evapEdge = ant.getEdgeFromIndex(i);
-					AntSimulator.getPec().addEvent(new PheromoneEvap(evapTimestamp, evapEdge) );
+				int aux = ant.getEdgesPathi(i);
+				if(AntSimulator.getG().getPheromonesFromEdge(aux) > 0) {
+
+					double evapTimestamp = PheromoneEvap.getNewTimestamp(this.timestamp);
+					if(evapTimestamp < AntSimulator.getFinalInst()) {
+						PheromonedEdge evapEdge = ant.getEdgeFromIndex(aux);
+						AntSimulator.getPec().addEvent(new PheromoneEvap(evapTimestamp, evapEdge) );
+					}
 				}
+				
 				
 			}
 			//reset dos nós visitados e do nr de nós visitados.
@@ -181,9 +184,6 @@ public class AntMove extends Event {
 			}
 			
 			
-			//adiciona a Edge no vetor, tendo em conta o nr de nós visitados
-			ant.addEdgesPath(ant.getNbVisitedNodes(), chosenEdge);
-			ant.setCurrentWeight();
 			
 		}
 		
@@ -207,11 +207,10 @@ public class AntMove extends Event {
 				// incrementa o nr de nós visitados
 				ant.incrementNbVisitedNodes();
 				//atualizar o weight
-				ant.addCurrentWeight(AntSimulator.getG().getWeightFromEdge(chosenEdge));
+				
 			}
 			
 			ant.setCurrentNode(nextNode);
-			ant.setCurrentWeight();
 			
 
 		}

@@ -32,7 +32,6 @@ public class Observation extends Event{
 			//Colocar na pilha a próxima observação
 			AntSimulator.getPec().addEvent(new Observation(timestamp + AntSimulator.getFinalInst()/20));
 		}
-		System.out.println("Best weight:" + AntSimulator.getBestWeight());
 		
 		nr++;
 	}
