@@ -1,6 +1,6 @@
 package ants;
 
-import graphHandler.Edge;;
+import graphHandler.Edge;
 
 public class PheromonedEdge extends Edge{
 	

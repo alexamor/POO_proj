@@ -46,8 +46,6 @@ public class AntMove extends Event {
 			
 			ant.increasePheromones();
 			
-			System.out.println("Chegou: " + Arrays.toString(ant.getVisitedNodes()));
-			
 			if(ant.getCurrentWeight() < AntSimulator.getBestWeight()) {
 				AntSimulator.setBestPath(ant.getVisitedNodes());
 				AntSimulator.setBestWeight(ant.getCurrentWeight());
@@ -119,8 +117,6 @@ public class AntMove extends Event {
 			if((hasNestNode != -1) && (ant.getNbVisitedNodes() == (AntSimulator.getNbNode() - 1))) {
 					nextNode = AntSimulator.getNestNode();
 					chosenEdge = hasNestNode;
-					
-					System.out.println("A seguir acaba: " + Arrays.toString(ant.getVisitedNodes()));
 			}
 			else {
 				// numero de adjacentes

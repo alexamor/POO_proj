@@ -31,6 +31,7 @@ public class AntSimulator implements ISimulator{
 	{
 		AntSimulator antSim = new AntSimulator();
 		
+		//Adicionar à diretoria o xml a ser lido
 		xml_path += args[0];
 		
 		antSim.beginSimulation(xml_path);	
@@ -42,20 +43,21 @@ public class AntSimulator implements ISimulator{
 		// TODO Auto-generated method stub
 		try {
 			
+			//Leitura do XML
 			Initializer init = XML.LoadXML(xml_path);
 			
 			getParameters(init);
 			
 			g = init.CreateGraph();
 			g.createAdjacencyList();
-			
-			//System.out.println(this.toString());
-			
+
+			//Criação da colónia de formigas
 			Ant[] ants	= new Ant[AntSimulator.antColSize];
 			for(int i = 0; i < ants.length; i++) { 
 				ants[i] = new Ant();
 				pec.addEvent(new AntMove(ants[i], 0));
 			}
+			//Adicionar os eventos de movimento da formiga
 			pec.addEvent(new Observation(finalInst/20));
 			
 			bestWeight = Integer.MAX_VALUE;
@@ -63,6 +65,8 @@ public class AntSimulator implements ISimulator{
 			
 			Event curEvent;
 			
+			
+			//Só termina o programa quando não existirem mais eventos na pilha
 			while(!pec.isEmpty()) {
 				curEvent = (Event) pec.removeEvent();
 				curEvent.simulateEvent();
@@ -162,6 +166,8 @@ public class AntSimulator implements ISimulator{
 		return "AntSimulator [toString()=" + alpha + " " + beta + " " + delta + " " + eta + " " + rho + "]";
 	}
 	
+	
+	//Imprimir melhor caminho
 	public static String getBestPath() {
 		int aux = AntSimulator.nestNode;
 		

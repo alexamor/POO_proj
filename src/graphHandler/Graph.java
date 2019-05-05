@@ -9,8 +9,8 @@ import ants.PheromonedEdge;
 public class Graph implements IGraph{
 	
 	private int nbNodes;
-	private ArrayList<LinkedList<Integer>> adjList = new ArrayList<LinkedList<Integer>>();
-	private ArrayList<PheromonedEdge> edges;
+	private ArrayList<LinkedList<Integer>> adjList = new ArrayList<LinkedList<Integer>>(); //Vetor com as edges adjacentes, regista o indice da edge no vetor de Edges
+	private ArrayList<PheromonedEdge> edges; //Vetor de Arestas
 	
 
 	public Graph(int nbNodes, ArrayList<PheromonedEdge> edges) {
@@ -28,14 +28,14 @@ public class Graph implements IGraph{
 		
 		int i;
 		
-		//Create arrayList of Lists
+		//Criação do vetor de listas
 		for(i = 0; i < nbNodes; i++) {
 			adjList.add(new LinkedList<Integer>());
 		}
 		
 		i = 0;
 		
-		//Add edges index to Lists
+		//Adicionar o index da aresta ao vetor de Listas de adjacências
 		for(Edge edj : edges) {
 			adjList.get(edj.iNode).add(i);
 			adjList.get(edj.jNode).add(i);
@@ -50,6 +50,7 @@ public class Graph implements IGraph{
 
 	@Override
 	public int getAdjacentFromEdge(int curNode, int edge) {
+		//As arestas são bidirecionais por isso acrescentar a aresta a ambos os nós
 		if(curNode == edges.get(edge).getjNode())
 			return edges.get(edge).getiNode();
 		else if( curNode == edges.get(edge).getiNode())
