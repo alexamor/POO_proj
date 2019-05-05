@@ -15,7 +15,7 @@ public class AntSimulator implements ISimulator{
 
 	static XML xml = new XML();
 	//Atenção, ao mudar locais verificar se isto se mantém
-	static String xml_path = System.getProperty("user.dir") + "\\\\src\\\\utils\\\\XML.xml";
+	static String xml_path = System.getProperty("user.dir") + "\\\\"/* + "\\\\src\\\\utils\\\\XML.xml"*/;
 	static float pLevel;
 	static float finalInst;
 	static int antColSize;
@@ -29,7 +29,9 @@ public class AntSimulator implements ISimulator{
 	
 	public static void main (String [] args)
 	{
-		AntSimulator antSim = new AntSimulator();	
+		AntSimulator antSim = new AntSimulator();
+		
+		xml_path += args[0];
 		
 		antSim.beginSimulation(xml_path);	
 		

@@ -14,8 +14,8 @@ public class XML
 {
 	
 	/* TODO
-	 * 	Possivelmente colocar o doc como atributo da classe para não o estar sempre a passar aos metodos auxiliares (?)
-	 *  Possivelmente criar um dicionario com as excepções numa especie de app.config parametrizavel (?)
+	 * 	Possivelmente colocar o doc como atributo da classe para nï¿½o o estar sempre a passar aos metodos auxiliares (?)
+	 *  Possivelmente criar um dicionario com as excepï¿½ï¿½es numa especie de app.config parametrizavel (?)
 	 *  Partir o LoadXML em getsimulationdata(), getgraphnodes(), getedges(), geteventos() (?)
 	 */
 		
@@ -82,7 +82,7 @@ public class XML
 			return init;						
 		}
 		catch (Exception e) { 
-			throw new Exception("PARSER - GRAFO INVÁLIDO: " + e);
+			throw new Exception("PARSER - GRAFO INVÃLIDO: " + e);
 		} 
 	}
 	
@@ -118,7 +118,7 @@ public class XML
 	
 	public static int getNestNode(Node node)
 	{
-		return Integer.parseInt(getNodeValue("nestnode", node));
+		return Integer.parseInt(getNodeValue("nestnode", node)) - 1;
 	}
 	
 	public static float getAlpha(Node node)
@@ -153,7 +153,7 @@ public class XML
 		{
 			throw new Exception("node must be > 0");
 		}		
-		return nodeidx;
+		return nodeidx - 1;
 	}
 	
 	public static int getTargetNode(Node node) throws Exception
@@ -163,7 +163,7 @@ public class XML
 		{
 			throw new Exception("node must be > 0");
 		}		
-		return targetnode;
+		return targetnode - 1;
 	}
 	
 	public static int getEdgeWeight(Node node)
