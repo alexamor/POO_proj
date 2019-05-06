@@ -13,20 +13,26 @@
             <weight targetnode="3">3</weight>
             <weight targetnode="4">2</weight>
             <weight targetnode="5">5</weight>
+            <weight targetnode="9">3</weight>
         </node>
         <node nodeidx="3">
+            <weight targetnode="6">5</weight>
+            <weight targetnode="8">2</weight>
+            <weight targetnode="10">4</weight>
         </node>
         <node nodeidx="4">
             <weight targetnode="5">1</weight>
+            <weight targetnode="7">2</weight>
         </node> 
         <node nodeidx="5">
             <weight targetnode="6">1</weight>
             <weight targetnode="8">5</weight> 
             <weight targetnode="10">5</weight>  
-      </node> 
+        </node> 
         <node nodeidx="6">
             <weight targetnode="7">1</weight>
-       </node>  
+            <weight targetnode="9">3</weight>
+        </node>  
         <node nodeidx="7">
             <weight targetnode="8">2</weight>
             <weight targetnode="9">2</weight> 
@@ -34,9 +40,9 @@
     	</node>
     	<node nodeidx="8">
     		<weight targetnode="9">2</weight> 
-        </node>  
-        <node nodeidx="9">
-            <weight targetnode="10">4</weight> 
+      </node>  
+      <node nodeidx="9">
+          <weight targetnode="10">4</weight> 
     	</node> 
   </graph>
     <events>
