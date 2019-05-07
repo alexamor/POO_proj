@@ -17,7 +17,6 @@ public class PEC implements IPEC{
 			}
 		}
 	);
-	//Nota: verificar o <? superEvent>
 
 
 	@Override

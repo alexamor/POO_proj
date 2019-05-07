@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE simulation SYSTEM "simulation.dtd">
-<simulation finalinst="500000.0" antcolsize="200" plevel="0.5">
+<simulation finalinst="500.0" antcolsize="200" plevel="0.5">
     <graph nbnodes="20" nestnode="1">
         <node nodeidx="1">
             <weight targetnode="2">3</weight>

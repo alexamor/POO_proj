@@ -2,8 +2,21 @@ package ants;
 
 import eventHandler.*;
 import simulator.AntSimulator;
-
 import java.util.*;
+
+/**
+ * Classe AntMove: implementa o evento de movimento da formiga. Esta classe implementa a classe abstracta Event. 
+ * A formiga chega a um nó, verifica se completou um ciclo Hamiltoniano.
+ * Caso o tenha feito, através do peso do caminho, vê se o ciclo encontrado tem um peso total inferior ao menor ciclo encontrado até agora.
+ * Caso isto se verifique, deve atualizar o peso do menor caminho no AntSimulator, bem como o próprio caminho. Aumenta também o nível de 
+ * feromonas de todas as arestas do caminho e cria novos eventos de evaporação para as arestas que não os tenham. Naturalmente, faz também
+ * reset às suas variáveis, para poder iniciar um novo caminho.
+ * Depois, quer tenha completado um ciclo quer não, decide qual o próximo nó para onde vai, calcula o tempo que demora a chegar ao nó e 
+ * adiciona um novo evento, cujo instante é dado pela soma do atual com o do tempo calculado, ao PEC.
+ * 
+ * @author Alexandre Filipe, Sofia Salgueiro, José Rocha
+ * @since 26-04-2019
+ */
 
 public class AntMove extends Event {
 
@@ -12,16 +25,34 @@ public class AntMove extends Event {
 	private Ant ant;
 	private static int nr = 0;
 
+	/**
+	 * AntMove Constructor - invoca o constructor da superclasse para inicializar o instante e, no seu próprio constructor, inicializa a formiga associada ao evento.
+	 * @param ant - formiga à qual o evento está associado
+	 * @param timestamp - instante em que o evento ocorre
+	 */
 	public AntMove(Ant ant, double timestamp) {
 		super(timestamp);
 		this.ant = ant;
 	}
 
+	/**
+	 * Ant Getter - retorna a formiga à qual o evento está associado
+	 * @return formiga a que o evento está associado
+	 */
 	public Ant getAnt() {
 		return ant;
 	}
 
-	
+	/**
+	 * Override da função dada pela classe abstracta Event. Esta função trata de todo o movimento da formiga.
+	 * A formiga chega a um nó, verifica se completou um ciclo Hamiltoniano.
+	 * Caso o tenha feito, através do peso do caminho, vê se o ciclo encontrado tem um peso total inferior ao menor ciclo encontrado até agora.
+	 * Caso isto se verifique, deve atualizar o peso do menor caminho no AntSimulator, bem como o próprio caminho. Aumenta também o nível de 
+	 * feromonas de todas as arestas do caminho e cria novos eventos de evaporação para as arestas que não os tenham. Naturalmente, faz também
+	 * reset às suas variáveis, para poder iniciar um novo caminho.
+	 * Depois, quer tenha completado um ciclo quer não, decide qual o próximo nó para onde vai, calcula o tempo que demora a chegar ao nó e 
+	 * adiciona um novo evento, cujo instante é dado pela soma do atual com o do tempo calculado, ao PEC.
+	 */
 	@Override
 	public void simulateEvent() {
 		
@@ -44,20 +75,23 @@ public class AntMove extends Event {
 		// verificar se encontrou um ciclo
 		if((ant.getCurrentNode() == AntSimulator.getNestNode()) && (AntSimulator.getNbNode() == ant.getNbVisitedNodes())) {
 			
-			
-		
+			// calcula o peso do caminho
 			ant.setCurrentWeight();
 			
-			
+			// verifica se o peso do seu caminho é inferior ao peso do atual menor caminho da simulação. Se isto se verificar, atualiza
+			// o caminho da simulação e, consequentemente, também o peso.
 			if(ant.getCurrentWeight() < AntSimulator.getBestWeight()) {
 				AntSimulator.setBestPath(ant.getVisitedNodes());
 				AntSimulator.setBestWeight(ant.getCurrentWeight());
 			}
 			
-			for(int i=0; i < ant.getEdgesPath().length; i++) {
-				
+			// percorre todas as arestas do caminho e cria um evento de evaporação para cada aresta que não tenha nenhum no PEC
+			for(int i=0; i < ant.getEdgesPath().length; i++) {	
+				// obtém a aresta
 				int aux = ant.getEdgesPathi(i);
+				// caso o nível de feromonas seja igual a 0, esta aresta não tem nenhum evento de evaporação no PEC. Então, é necessário criá-lo
 				if(AntSimulator.getG().getPheromonesFromEdge(aux) == 0) {
+					// Calcula o instante em que ocorrerá a evaporação, cria o evento e adiciona-lo ao PEC.
 					double evapTimestamp = PheromoneEvap.getNewTimestamp(this.timestamp);
 					if(evapTimestamp < AntSimulator.getFinalInst()) {
 						PheromonedEdge evapEdge = ant.getEdgeFromIndex(aux);
@@ -65,10 +99,11 @@ public class AntMove extends Event {
 					}
 				}
 				
-				
 			}
+			// aumenta o nível de feromonas de todas as arestas do caminho
 			ant.increasePheromones();
-			//reset dos nós visitados e do nr de nós visitados.
+			
+			//reset dos nós visitados e do nr de nós visitados para poder iniciar um novo caminho
 			ant.resetNbVisitedNodes();
 			ant.resetVisitedNodes();
 		}
@@ -150,7 +185,7 @@ public class AntMove extends Event {
 				//System.out.println("Probab: " + Arrays.toString(edgesProbability) + "-> Chosen " + nextNode);
 				
 				//reverter o ciclo 
-				ant.revertCycle(nextNode, chosenEdge);
+				ant.revertCycle(nextNode);
 				hasRevertedCycle = true;
 				
 				
@@ -206,15 +241,22 @@ public class AntMove extends Event {
 				
 			}
 			
+			// atualiza o nó atual para ser o próximo
 			ant.setCurrentNode(nextNode);
 			
 
 		}
 		
-		
+		// incrementa o nr destes eventos através da variável estática nr
 		nr++;		
 	}
 	
+	/**
+	 * Determina o nó para o qual a formiga se irá deslocar. Cada nó é escolhido aleatoriamente e tendo em conta o vetor de probabilidades,
+	 * que representa a probabilidade de cada nó, dado como argumento.
+	 * @param edgesProbability - vetor de probabilidades dos nós
+	 * @return nó escolhido
+	 */
 	public int getChosenNode(Double[] edgesProbability) {
 		int aux = -1;
 		double random = new Random().nextDouble();
@@ -234,7 +276,12 @@ public class AntMove extends Event {
 		
 		return aux;
 	}
-
+	
+	
+	/**
+	 * Nr Static Getter - retorna o número de eventos AntMove realizados, dado pleo atributo estático da classe, nr.
+	 * @return nº de eventos AntMove realizados
+	 */
 	public static int getNr() {
 		return nr;
 	}
