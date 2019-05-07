@@ -12,6 +12,9 @@ public abstract class Event {
 		return "Event [timestamp=" + timestamp + "]";
 	}
 	
+	/**
+	 * Realização do evento atual
+	 */
 	public void simulateEvent() {}
 	
 	

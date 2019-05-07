@@ -12,12 +12,20 @@ public class Edge
         this.jNode = jNode;
         this.setWeight(weight);
     }
-
+    
+    /**
+     * 
+     * @return primeiro nó da aresta
+     */
     public int getiNode()
     {
         return this.iNode;
     }
-
+    
+    /**
+     * 
+     * @return segundo nó da aresta
+     */
     public int getjNode()
     {
         return this.jNode;
@@ -29,11 +37,19 @@ public class Edge
     			"\n\tjNode: " + this.jNode + 
     			"\n\tWeight: " + this.getWeight();  
     }
-
+    
+    /**
+     * 
+     * @return peso da aresta
+     */
 	public int getWeight() {
 		return weight;
 	}
-
+	
+	/**
+	 * 
+	 * @param weight - peso da aresta
+	 */
 	public void setWeight(int weight) {
 		this.weight = weight;
 	}

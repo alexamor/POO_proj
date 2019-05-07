@@ -18,12 +18,17 @@ public class PEC implements IPEC{
 		}
 	);
 
-
+	/**
+	 * @param ev - evento a acrescentar à pilha
+	 */
 	@Override
 	public void addEvent(Object ev) {
 		pec.add((Event) ev);
 	}
-
+	
+	/**
+	 * @return evento retirado do topo da pilha
+	 */
 	@Override
 	public Object removeEvent() {
 		Event x;
@@ -37,6 +42,10 @@ public class PEC implements IPEC{
 		return "PEC [pec=" + pec + "]";
 	}
 	
+	/**
+	 * 
+	 * @return booleano que verifica se a pilha está vazia
+	 */
 	public boolean isEmpty() {
 		return pec.isEmpty();
 	}

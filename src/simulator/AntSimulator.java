@@ -38,6 +38,11 @@ public class AntSimulator implements ISimulator{
 		
 	}
 
+	
+	/**
+	 * Executa a simulação da colónia das formigas nos grafo por completo
+	 * @param xmlFile - ficheiro XML de dados da simulação a ser lido
+	 */
 	@Override
 	public void beginSimulation(String xmlFile) {
 		// TODO Auto-generated method stub
@@ -78,15 +83,26 @@ public class AntSimulator implements ISimulator{
 		}
 	}
 	
-
+	/**
+	 * 
+	 * @return pilha de eventos
+	 */
 	public static PEC getPec() {
 		return pec;
 	}
 
+	/**
+	 * 
+	 * @return grafo
+	 */
 	public static Graph getG() {
 		return g;
 	}
 
+	/**
+	 * Copia para o antSimulator todos os dados necessários
+	 * @param init - classe inicializadora que contém os dados lidos do fichero XML 
+	 */
 	public void getParameters(Initializer init) {
 		pLevel = init.getPLevel();
 		finalInst = init.getFinalInst();
@@ -100,63 +116,122 @@ public class AntSimulator implements ISimulator{
 		rho = init.getRho();
 	}
 
+	/**
+	 * 
+	 * @return ficheiro XML selecionado
+	 */
 	public static XML getXml() {
 		return xml;
 	}
-
+	
+	/**
+	 * 
+	 * @return endereço completo do ficheiro XML selecionado
+	 */
 	public static String getXml_path() {
 		return xml_path;
 	}
 
+	/**
+	 * 
+	 * @return nível de feromonas
+	 */
 	public static float getpLevel() {
 		return pLevel;
 	}
 
+	/**
+	 * 
+	 * @return duração total da simulação
+	 */
 	public static float getFinalInst() {
 		return finalInst;
 	}
 
+	/**
+	 * 
+	 * @return número de formigas a percorrer o grafo
+	 */
 	public static int getAntColSize() {
 		return antColSize;
 	}
 
+	/**
+	 * 
+	 * @return número de nós do grafo
+	 */
 	public static int getNbNode() {
 		return nbNode;
 	}
-
+	
+	/**
+	 * 
+	 * @return nó inicial
+	 */
 	public static int getNestNode() {
 		return nestNode;
 	}
-
+	
+	/**
+	 * 
+	 * @return variável de movimento alfa
+	 */
 	public static float getAlpha() {
 		return alpha;
 	}
 
+	/**
+	 * 
+	 * @return variável de movimento beta
+	 */
 	public static float getBeta() {
 		return beta;
 	}
-
+	
+	/**
+	 * 
+	 * @return variável de movimento delta
+	 */
 	public static float getDelta() {
 		return delta;
 	}
 
+	/**
+	 * 
+	 * @return variável de evaporação eta
+	 */
 	public static float getEta() {
 		return eta;
 	}
 
+	/**
+	 * 
+	 * @return variável de evaporação rho
+	 */
 	public static float getRho() {
 		return rho;
 	}
 
+	/**
+	 * 
+	 * @return peso do atual melhor ciclo
+	 */
 	public static int getBestWeight() {
 		return bestWeight;
 	}
-
+	
+	/**
+	 * 
+	 * @param bestPath - novo melhor ciclo hamiltoniano
+	 */
 	public static void setBestPath(int[] bestPath) {
 		AntSimulator.bestPath = Arrays.copyOf(bestPath, bestPath.length);
 	}
 	
-	
+	/**
+	 * 
+	 * @param bestWeight - novo melhor peso
+	 */
 	public static void setBestWeight(int bestWeight) {
 		AntSimulator.bestWeight = bestWeight;
 	}
@@ -167,7 +242,10 @@ public class AntSimulator implements ISimulator{
 	}
 	
 	
-	//Imprimir melhor caminho
+	/**
+	 * 
+	 * @return string com o melhor ciclo formatada
+	 */
 	public static String getBestPath() {
 		int aux = AntSimulator.nestNode;
 		
