@@ -1,9 +1,12 @@
 package graphHandler;
 
 public class Edge
-{
+{	
+	/**Nó numa extremidade da aresta*/
     protected int iNode;
+    /**Nó na outra extremidade da aresta*/
     protected int jNode;
+    /**Peso da aresta*/
     protected int weight;
 
     public Edge (int iNode,int jNode, int weight)
