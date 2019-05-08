@@ -10,30 +10,43 @@ import simulator.AntSimulator;
  * @author Alexandre Filipe, Sofia Salgueiro, José Rocha
  * @since 26-04-2019
  */
-
 public class Ant{
 	
+	/**
+	 * currentNode - Nó em que a formiga se encontra atualmente
+	 */
+
 	private int currentNode;
+	/**
+	 * currentWeight - Peso total do caminho que a formiga percorreu
+	 */
 	private int currentWeight = 0; // Inicialmente, ainda não encontraram nenhum ciclo de Hamilton por isso o peso é 0
+	/**
+	 * visitedNodes - Vetor que guarda os nós visitados pela formiga. Os nós que ainda não tiverem sido visitados têm o seu campo a -1. Se
+	 * o nó já tiver sido visitado, o campo tem o número do nó visitado a seguir. Assim, é possível reconstruir o caminho através deste vetor.
+	 */
 	private int[] visitedNodes;
+	/**
+	 * edgesPath - Vetor que guarda o índice das arestas no vetor de arestas do grafo que a formiga percorreu.
+	 */
 	private int[] edgesPath;
 	
 	/**
-	 * Ant constructor - inicializa todos os atributos da classe.
+	 * Ant constructor - Inicializa todos os atributos da classe.
 	 */
 	public Ant() {
-		currentNode = AntSimulator.getNestNode(); // As formigas começam pelo nest node
+		currentNode = AntSimulator.getNestNode(); // As formigas começam pelo nest node.
 		this.visitedNodes = new int[AntSimulator.getNbNode()]; // Array de nós visitados. Inicialmente, este array é inicializado a -1.
 		Arrays.fill(visitedNodes, -1);
 		
 		visitedNodes[currentNode] = currentNode;// Como a formiga começaa origem, é necessário atualizar no array.
 		
-		this.edgesPath = new int[AntSimulator.getNbNode()]; // Array que vai ter todas as edges do caminho para depois conseguir decrementar feromonas
+		this.edgesPath = new int[AntSimulator.getNbNode()]; // Array que vai ter todas as edges do caminho para depois conseguir decrementar feromonas.
 	}
 	
 	/**
-	 * Current Node Setter - atualiza o nó atual.
-	 * @param currentNode - nó atual
+	 * Current Node Setter - Atualiza o nó atual.
+	 * @param currentNode - Nó atual
 	 */
 	public void setCurrentNode(int currentNode) {
 		this.currentNode = currentNode;
@@ -41,8 +54,8 @@ public class Ant{
 
 	/**
 	 * Verifica se o nó que se pretende testar já foi visitado ou não.
-	 * @param node - nó que se pretende testar
-	 * @return boolean - "true" se o nó já foi visitado e "false" se ainda não foi visitado.
+	 * @param node - Nó que se pretende testar
+	 * @return boolean - "true" se o nó já foi visitado e "false" se ainda não foi visitado
 	 */
 	// verifica se já visitou o nó
 	public boolean hasVisited(int node) {
@@ -54,8 +67,8 @@ public class Ant{
 	
 	
 	/**
-	 * Current Node Getter - retorna o nó atual.
-	 * @return currentNode - nó atual
+	 * Current Node Getter - Retorna o nó atual.
+	 * @return currentNode - Nó atual
 	 */
 	public int getCurrentNode() {
 		return currentNode;
@@ -64,7 +77,7 @@ public class Ant{
 	/**
 	 * Calcula o custo, Cijk, da aresta dada como parâmetro. Este custo é diretamente proporcional ao nível de feromonas
 	 * da resta e inversamente proporcional ao peso da mesma. 
-	 * @param edge - aresta
+	 * @param edge - Aresta
 	 * @return Custo calculado, Cijk
 	 */
 	public double getCostijk(int edge) {
@@ -78,7 +91,7 @@ public class Ant{
 	}
 
 	/**
-	 * Incrementa o nº de nós visistados pela formiga, ou seja, incrementa o atributo nbVisitedNodes
+	 * Incrementa o nº de nós visistados pela formiga, ou seja, incrementa o atributo nbVisitedNodes.
 	 */
 	public void incrementNbVisitedNodes() {
 	}
@@ -99,8 +112,8 @@ public class Ant{
 	}
 	/**
 	 * Adiciona a aresta do caminho ao vetor da formiga.
-	 * @param index - índice do vetor onde se vai adicionar a aresta
-	 * @param edge - aresta que se pretende adicionar
+	 * @param index - Índice do vetor onde se vai adicionar a aresta
+	 * @param edge - Aresta que se pretende adicionar
 	 */
 	public void addEdgesPath(int index, int edge) {
 		edgesPath[index] = edge;
@@ -108,7 +121,7 @@ public class Ant{
 	
 	/**
 	 * Adiciona o próximo nó no índice do vetor atual, construindo assim o caminho no vetor de índices visitados.
-	 * @param nextNode - próximo nó
+	 * @param nextNode - Próximo nó
 	 */
 	public void addVisitedNode(int nextNode) {
 		visitedNodes[this.currentNode] = nextNode;
@@ -117,13 +130,13 @@ public class Ant{
 	/**
 	 * Quando a formiga se desloca para um nó já visitado, tem de "esquecer" o caminho que fez até chegar a este nó novamente.
 	 * Esta função reverte o ciclo no vetor de nós visitados.
-	 * @param chosenNode - nó destino.
+	 * @param chosenNode - Nó destino.
 	 */
 	public void revertCycle(int chosenNode) {
 		int aux = chosenNode;
 		int aux_next;
 		
-		//Reverte o ciclo colocando os elementos do vetor a -1
+		// Reverte o ciclo colocando os elementos do vetor a -1
 		while(aux != currentNode) {
 			aux_next = visitedNodes[aux];
 			visitedNodes[aux] = -1;
@@ -136,9 +149,9 @@ public class Ant{
 	/**
 	 * Calcula o instante em que a formiga chegará ao nó destino para, posteriormente, poder criar o evento com este instante.
 	 * O instante é calculado através de uma distribuição exponencial cuja média é diretamente proporcional ao peso da aresta.
-	 * @param edge - aresta que a formiga vai percorrer
-	 * @param ts - instante/timestamp do evento atual
-	 * @return instante em que a formiga chegará ao destino, ou seja, instante do próximo evento
+	 * @param edge - Aresta que a formiga vai percorrer
+	 * @param ts - Instante/timestamp do evento atual
+	 * @return Instante em que a formiga chegará ao destino, ou seja, instante do próximo evento
 	 */
 	public static double getNextEventTime(int edge, double ts) {
 		
@@ -204,7 +217,7 @@ public class Ant{
 	
 	/**
 	 * O índice da aresta no vetor de arestas do grafo é dado como parâmetro e função retorna a aresta correspondente.
-	 * @param index - índice da aresta no vetor de arestas do grafo
+	 * @param index - Índice da aresta no vetor de arestas do grafo
 	 * @return PhermonoedEdge - aresta pretendida
 	 */
 	public PheromonedEdge getEdgeFromIndex(int index) {
@@ -212,8 +225,8 @@ public class Ant{
 	}
 	
 	/**
-	 * Visited Nodes Getter - retorna o vetor de nós visitados, que contém os nós visitados e o caminho que a formiga fez.
-	 * @return - vetor de nós visitados
+	 * Visited Nodes Getter - Retorna o vetor de nós visitados, que contém os nós visitados e o caminho que a formiga fez.
+	 * @return - Vetor de nós visitados
 	 */
 	public int[] getVisitedNodes() {
 		return visitedNodes;
@@ -227,7 +240,7 @@ public class Ant{
 		int aux = AntSimulator.getNestNode(), aux_next;
 		int aux_edge;
 		
-		//Percorre todos os nós visitados, a partir da origem, reconstrói o caminho e, assim, calcula o peso do caminho
+		// Percorre todos os nós visitados, a partir da origem, reconstrói o caminho e, assim, calcula o peso do caminho
 		// e atualiza o vetor de arestas do caminho da formiga.
 		for(int i = 0; i < AntSimulator.getNbNode(); i++) {
 			aux_next = visitedNodes[aux];
@@ -241,8 +254,8 @@ public class Ant{
 	/**
 	 * Através do índice do vetor de arestas da formiga, dado como parâmetro, é devolvido o inteiro que identifica a aresta
 	 * no vetor de arestas do grafo.
-	 * @param i - índice do vetor de arestas da formiga, ao qual se pretende aceder
-	 * @return - índice da aresta no vetor de arestas do grafo
+	 * @param i - Índice do vetor de arestas da formiga, ao qual se pretende aceder
+	 * @return - Índice da aresta no vetor de arestas do grafo
 	 */
 	public int getEdgesPathi(int i) {
 		return edgesPath[i];

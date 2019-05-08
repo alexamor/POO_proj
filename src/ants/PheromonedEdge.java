@@ -9,22 +9,25 @@ import graphHandler.Edge;
  */
 public class PheromonedEdge extends Edge{
 	
+	/**
+	 * pheromoneLevel - Nível de feromonas da aresta.
+	 */
 	private float pheromoneLevel = 0;
 
 	/**
-	 * Default constructor - invoca o constructor da superclasse para inicializar o nó i, o nó j e o peso da aresta.
+	 * Default constructor - Invoca o constructor da superclasse para inicializar o nó i, o nó j e o peso da aresta.
 	 * As feromonas são inicializadas a 0.
-	 * @param iNode - nó i 
-	 * @param jNode - nó j
-	 * @param weight - peso da aresta
+	 * @param iNode - Nó i 
+	 * @param jNode - Nó j
+	 * @param weight - Peso da aresta
 	 */
 	public PheromonedEdge(int iNode, int jNode, int weight) {
 		super(iNode, jNode, weight);
 	}
 	
 	/**
-	 * Pheromone Level Getter - devolve o nível de feromonas da aresta
-	 * @return nível de feromonas da aresta
+	 * Pheromone Level Getter - Devolve o nível de feromonas da aresta.
+	 * @return Nível de feromonas da aresta
 	 */
 	public float getPheromoneLevel() {
 		return pheromoneLevel;
@@ -32,7 +35,7 @@ public class PheromonedEdge extends Edge{
 
 	/**
 	 * Adiciona o nível de feromonas dado como parâmetro à aresta.
-	 * @param pheromoneLevel - nível de feromonas que se pretende adicionar
+	 * @param pheromoneLevel - Nível de feromonas que se pretende adicionar
 	 */
 	public void increasePheromoneLevel(float pheromoneLevel) {
 		this.pheromoneLevel += pheromoneLevel;
@@ -40,7 +43,7 @@ public class PheromonedEdge extends Edge{
 	
 	/**
 	 * Diminui o nível de feromonas dado como parâmetro à aresta. O nível de feromonas é, no máximo, diminuído até 0.
-	 * @param pheromoneLevel - nível de feromonas que se pretende diminuir
+	 * @param pheromoneLevel - Nível de feromonas que se pretende diminuir
 	 */
 	public void decreasePheromoneLevel(float pheromoneLevel) {
 		this.pheromoneLevel -= pheromoneLevel;

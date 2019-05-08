@@ -17,12 +17,16 @@ import java.util.*;
  * @author Alexandre Filipe, Sofia Salgueiro, José Rocha
  * @since 26-04-2019
  */
-
 public class AntMove extends Event {
 
 	
-	// Cada evento de movimento de formiga está associado a uma formiga
+	/**
+	 * ant - Formiga à qual o evento está associado.
+	 */
 	private Ant ant;
+	/**
+	 * nr - Atributo estático da classe AntMove que contém o número de eventos AntMove realizados.
+	 */
 	private static int nr = 0;
 
 	/**
@@ -36,8 +40,8 @@ public class AntMove extends Event {
 	}
 
 	/**
-	 * Ant Getter - retorna a formiga à qual o evento está associado
-	 * @return formiga a que o evento está associado
+	 * Ant Getter - Retorna a formiga à qual o evento está associado.
+	 * @return formiga à qual o evento está associado
 	 */
 	public Ant getAnt() {
 		return ant;
@@ -279,7 +283,7 @@ public class AntMove extends Event {
 	
 	
 	/**
-	 * Nr Static Getter - retorna o número de eventos AntMove realizados, dado pleo atributo estático da classe, nr.
+	 * Nr Static Getter - Retorna o número de eventos AntMove realizados, dado pleo atributo estático da classe, nr.
 	 * @return nº de eventos AntMove realizados
 	 */
 	public static int getNr() {

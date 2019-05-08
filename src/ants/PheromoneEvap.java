@@ -12,7 +12,13 @@ import simulator.AntSimulator;
  */
 public class PheromoneEvap extends Event{
 	
+	/**
+	 * edge - Aresta à qual o evento de evaporação de feromonas está associado.
+	 */
 	private PheromonedEdge edge;
+	/**
+	 * nr - Atributo estático Variável da classe PheromoneEvap que contém o número de eventos PheromoneEvap realizados.
+	 */
 	private static int nr = 0;
 	
 	/**
