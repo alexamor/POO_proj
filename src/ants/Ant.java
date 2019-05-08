@@ -14,9 +14,7 @@ import simulator.AntSimulator;
 public class Ant{
 	
 	private int currentNode;
-	private int currentWeight;
-	private int nbVisitedNodes;
-	
+	private int currentWeight = 0; // Inicialmente, ainda não encontraram nenhum ciclo de Hamilton por isso o peso é 0
 	private int[] visitedNodes;
 	private int[] edgesPath;
 	
@@ -25,9 +23,6 @@ public class Ant{
 	 */
 	public Ant() {
 		currentNode = AntSimulator.getNestNode(); // As formigas começam pelo nest node
-		currentWeight = 0; // Inicialmente, ainda não encontraram nenhum ciclo de Hamilton por isso o peso é 0
-		nbVisitedNodes = 0; // Sem nós visitados. 
-		
 		this.visitedNodes = new int[AntSimulator.getNbNode()]; // Array de nós visitados. Inicialmente, este array é inicializado a -1.
 		Arrays.fill(visitedNodes, -1);
 		
@@ -86,7 +81,6 @@ public class Ant{
 	 * Incrementa o nº de nós visistados pela formiga, ou seja, incrementa o atributo nbVisitedNodes
 	 */
 	public void incrementNbVisitedNodes() {
-		this.nbVisitedNodes++;
 	}
 
 	/**
@@ -158,7 +152,6 @@ public class Ant{
 	 * Coloca o nº de nós visitados a 0.
 	 */
 	public void resetNbVisitedNodes() {
-		this.nbVisitedNodes = 0;
 	}
 	
 	/**

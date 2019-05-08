@@ -1,7 +1,6 @@
 package ants;
 
 import eventHandler.Event;
-import eventHandler.PEC;
 import simulator.AntSimulator;
 
 /**

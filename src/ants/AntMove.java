@@ -160,24 +160,24 @@ public class AntMove extends Event {
 					chosenEdge = hasNestNode;
 			}
 			else {
-				// numero de adjacentes
-				int nbAdjacents = adjacentEdges.size();
-				if(hasNestNode != -1)
-					nbAdjacents --;
-				
-				edgesProbability = new Double[adjacentEdges.size()];
-				Iterator<Integer> iIterator = adjacentEdges.listIterator();		
-				
-				// caclcula a probabilidade uniforme de cada aresta, a origem tem probabilidade = 0
-				for(int i = 0; i< adjacentEdges.size(); i++) {
-					int origin = iIterator.next();
-					if(AntSimulator.getG().getAdjacentFromEdge(currentNode, origin) == AntSimulator.getNestNode() )
-						edgesProbability[i] = 0.0;
-					else 
-						edgesProbability[i] = (double) 1/nbAdjacents;
+			// numero de adjacentes
+			int nbAdjacents = adjacentEdges.size();
+			/*if(hasNestNode != -1)
+				nbAdjacents --;*/
+			
+			edgesProbability = new Double[adjacentEdges.size()];
+			//Iterator<Integer> iIterator = adjacentEdges.listIterator();		
+			
+			// caclcula a probabilidade uniforme de cada aresta, a origem tem probabilidade = 0
+			for(int i = 0; i< adjacentEdges.size(); i++) {
+				//int origin = iIterator.next();
+				/*if(AntSimulator.getG().getAdjacentFromEdge(currentNode, origin) == AntSimulator.getNestNode() )
+					edgesProbability[i] = 0.0;
+				else */
+				edgesProbability[i] = (double) 1/nbAdjacents;
 				}
 				
-				
+			
 				// escolha do próximo nó, tendo em conta a probabilidade uniforme de cada um
 				chosenEdge = this.getChosenNode(edgesProbability); // retorna o indice no vetor de probabilidades
 				nextNode = AntSimulator.getG().getAdjacentFromEdge(ant.getCurrentNode(), adjacentEdges.get(chosenEdge));
