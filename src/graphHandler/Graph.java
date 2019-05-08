@@ -7,9 +7,12 @@ import ants.PheromonedEdge;
 
 
 public class Graph implements IGraph{
-	
+		
+	/**Quantidade de nós no grafo*/
 	private int nbNodes;
+	/**Lista de adjacências, guarda os índices das arestas no vetor de arestas*/
 	private ArrayList<LinkedList<Integer>> adjList = new ArrayList<LinkedList<Integer>>(); //Vetor com as edges adjacentes, regista o indice da edge no vetor de Edges
+	/**Vetor de arestas*/
 	private ArrayList<PheromonedEdge> edges; //Vetor de Arestas
 	
 

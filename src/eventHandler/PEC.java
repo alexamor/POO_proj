@@ -4,7 +4,7 @@ import java.util.Comparator;
 import java.util.PriorityQueue;
 
 public class PEC implements IPEC{
-	
+	/**Pilha de prioridades que armazena os eventos*/
 	protected PriorityQueue<Event> pec = new PriorityQueue<Event>(50, 
 		(Comparator<? super Event>) new Comparator<Event>() {
 			public int compare(Event a, Event b) {

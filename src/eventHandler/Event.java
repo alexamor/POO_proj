@@ -1,9 +1,9 @@
 package eventHandler;
 
 public abstract class Event {
-	
+	/** instante em que o evento ocorre */
 	protected double timestamp;
-	/**Construtor**/
+	
 	public Event(double timestamp) {
 		this.timestamp = timestamp;
 	}

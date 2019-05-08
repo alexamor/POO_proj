@@ -12,19 +12,29 @@ import eventHandler.PEC;
 
 
 public class AntSimulator implements ISimulator{
-
+	/**ficheiro XML a ser lido*/
 	static XML xml = new XML();
-	//Atenção, ao mudar locais verificar se isto se mantém
+	/**endereço completo do ficheiro XML*/
 	static String xml_path = System.getProperty("user.dir") + "\\\\"/* + "\\\\src\\\\utils\\\\XML.xml"*/;
+	/**nível de feromonas*/
 	static float pLevel;
+	/**duração da simulação*/
 	static float finalInst;
+	/**quantidade de formigas*/
 	static int antColSize;
+	/**quantidade de nós no grafo*/
 	static int nbNode;
+	/**nó inicial*/
 	static int nestNode;
+	/**parametros de movimento e evaporação*/
 	static float alpha, beta, delta, eta, rho;
+	/**peso do melhor ciclo*/
 	static int bestWeight;
+	/**melhor ciclo*/
 	static int[] bestPath;
+	/**grafo*/
 	static Graph g;
+	/**pilha ordenada de eventos*/
 	static PEC pec = new PEC();
 	
 	public static void main (String [] args)
