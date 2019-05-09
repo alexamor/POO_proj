@@ -1,21 +1,28 @@
 package utils;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.xml.sax.ErrorHandler;
+import org.xml.sax.SAXException;
+import org.xml.sax.SAXParseException;
+import org.xml.sax.InputSource;
 
 import ants.PheromonedEdge;
 
 /**
- * Classe XML : parse do doxumento XML. A partir do ficheiro disponilizado, será
- * instanciada a classe Initializer que posteriormente será utilizada para construir
- * o sistema de simulação
+ * Classe XML : parse do doxumento XML. A partir do ficheiro disponilizado, serï¿½
+ * instanciada a classe Initializer que posteriormente serï¿½ utilizada para construir
+ * o sistema de simulaï¿½ï¿½o
  *  
- * @author Alexandre Filipe, Sofia Salgueiro, José Rocha
+ * @author Alexandre Filipe, Sofia Salgueiro, Josï¿½ Rocha
  * @since 07-05-2019
  */
 
@@ -23,8 +30,10 @@ public class XML
 {		
 	
 	/**
-	 * Initializer LoadXML() - devolve um objeto do tipo Initializer com os atributos obtidos através do ficheiro XML.
-	 * @return Initializer 
+	 * Initializer LoadXML() - devolve um objeto do tipo Initializer com os atributos obtidos atravï¿½s do ficheiro XML.
+	 * @param xml_path - ficheiro a ser lido
+	 * @return Initializer
+	 * @throws Exception - parser invÃ¡lido
 	 */
 	public static Initializer LoadXML(String xml_path) throws Exception 
 	{
@@ -36,7 +45,31 @@ public class XML
 			
 			//LOAD XML
 			DocumentBuilderFactory fact = DocumentBuilderFactory.newInstance();
+			fact.setValidating(true);
 			DocumentBuilder builder = fact.newDocumentBuilder();
+			
+			builder.setErrorHandler(
+			          new ErrorHandler() {
+			            public void warning(SAXParseException e) throws SAXException {
+			              System.out.println("WARNING : " + e.getMessage()); // do nothing
+			            }
+
+			            public void error(SAXParseException e) throws SAXException {
+			              System.out.println("ERROR : " + e.getMessage());
+			              throw e;
+			            }
+
+			            public void fatalError(SAXParseException e) throws SAXException {
+			              System.out.println("FATAL : " + e.getMessage());
+			              throw e;
+			            }
+			          }
+					);
+			
+			
+			
+			
+			
 			org.w3c.dom.Document doc = builder.parse(new File(path));
  			
 			// GET SIMULATION DATA
@@ -87,15 +120,24 @@ public class XML
 			
 			return init;						
 		}
+		catch (ParserConfigurationException pce) {
+	      throw pce;
+	    } 
+	    catch (IOException io) {
+	      throw io;
+	    }
+	    /*catch (SAXException se){
+	      return false;*/
 		catch (Exception e) { 
 			throw new Exception("PARSER - GRAFO INVALIDO: " + e);
 		} 
 	}
 	
 	/**
-	 * Initializer getAntColSize() - devolve o atributo antcolsize. Se o valor encontrado for negativo lança uma excepção.
+	 * Initializer getAntColSize() - devolve o atributo antcolsize. Se o valor encontrado for negativo lanï¿½a uma excepï¿½ï¿½o.
 	 * @param node - no a desserializar
 	 * @return antcolsize  - atributo antcolsize
+	 * @throws Exception - antcolsize tem de ser um nÃºmero positivo
 	 */
 	public static int getAntColSize(Node node) throws Exception 
 	{
@@ -118,9 +160,10 @@ public class XML
 	}
 	
 	/**
-	 * Initializer getFinalInst() - devolve o atributo finalinst. Se o valor encontrado for negativo lança uma excepção.
+	 * Initializer getFinalInst() - devolve o atributo finalinst. Se o valor encontrado for negativo lanï¿½a uma excepï¿½ï¿½o.
 	 * @param node - no a desserializar
 	 * @return finalinst - atributo finalinst
+	 * @throws Exception - o instante final tem de ser um nÂº positivo
 	 */	
 	public static float getFinalInst(Node node) throws Exception
 	{
@@ -184,7 +227,7 @@ public class XML
 	
 	/**
 	 * Initializer getRHO() - devolve o atributo rho. 
-	 * @param node - nó a desserializar
+	 * @param node - nï¿½ a desserializar
 	 * @return rho - atributo rho
 	 */		
 	public static float getRHO(Node node)
@@ -203,9 +246,10 @@ public class XML
 	}
 	
 	/**
-	 * Initializer getNodeIDX() - devolve o atributo nodeidx. Se o valor encontrado for menor que 1 lança uma excepção.
+	 * Initializer getNodeIDX() - devolve o atributo nodeidx. Se o valor encontrado for menor que 1 lanï¿½a uma excepï¿½ï¿½o.
 	 * @param node - no a desserializar
 	 * @return nodeidx - atributo nodeidx
+	 * @exception Exception - o nÃ³ tem de ser positivo
 	 */		
 	public static int getNodeIDX(Node node) throws Exception
 	{
@@ -218,9 +262,10 @@ public class XML
 	}
 	
 	/**
-	 * Initializer getTargetNode() - devolve o atributo targetnode. Se o valor encontrado for menor que 1 lança uma excepção.
+	 * Initializer getTargetNode() - devolve o atributo targetnode. Se o valor encontrado for menor que 1 lanï¿½a uma excepï¿½ï¿½o.
 	 * @param node - no a desserializar
 	 * @return targetnode - atributo targetnode
+	 * @throws Exception - o nÃ³ destino tem de ser positivo
 	 */		
 	public static int getTargetNode(Node node) throws Exception
 	{
@@ -246,7 +291,7 @@ public class XML
 	 * Initializer getNodeList() - devolve uma lista de nos. 
 	 * @param TagName - no pai da lista
 	 * @param doc - documento XML base
-	 * @return NodeList - lista dos nós encontrados
+	 * @return NodeList - lista dos nï¿½s encontrados
 	 */		
 	public static NodeList getNodeList(String TagName, org.w3c.dom.Document doc)
 	{

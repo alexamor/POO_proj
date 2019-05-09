@@ -112,7 +112,7 @@ public class Ant{
 	}
 	/**
 	 * Adiciona a aresta do caminho ao vetor da formiga.
-	 * @param index - Índice do vetor onde se vai adicionar a aresta
+	 * @param index - Indice do vetor onde se vai adicionar a aresta
 	 * @param edge - Aresta que se pretende adicionar
 	 */
 	public void addEdgesPath(int index, int edge) {
@@ -216,8 +216,8 @@ public class Ant{
 	}
 	
 	/**
-	 * O índice da aresta no vetor de arestas do grafo é dado como parâmetro e função retorna a aresta correspondente.
-	 * @param index - Índice da aresta no vetor de arestas do grafo
+	 * O indice da aresta no vetor de arestas do grafo é dado como parâmetro e função retorna a aresta correspondente.
+	 * @param index - Indice da aresta no vetor de arestas do grafo
 	 * @return PhermonoedEdge - aresta pretendida
 	 */
 	public PheromonedEdge getEdgeFromIndex(int index) {
@@ -252,10 +252,10 @@ public class Ant{
 	}
 	
 	/**
-	 * Através do índice do vetor de arestas da formiga, dado como parâmetro, é devolvido o inteiro que identifica a aresta
+	 * Através do indice do vetor de arestas da formiga, dado como parâmetro, é devolvido o inteiro que identifica a aresta
 	 * no vetor de arestas do grafo.
-	 * @param i - Índice do vetor de arestas da formiga, ao qual se pretende aceder
-	 * @return - Índice da aresta no vetor de arestas do grafo
+	 * @param i - Indice do vetor de arestas da formiga, ao qual se pretende aceder
+	 * @return - Indice da aresta no vetor de arestas do grafo
 	 */
 	public int getEdgesPathi(int i) {
 		return edgesPath[i];

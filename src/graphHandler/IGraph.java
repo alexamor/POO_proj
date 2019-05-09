@@ -18,7 +18,7 @@ public interface IGraph {
 	public void createAdjacencyList();
 	
 	/**
-	 * @param curnode - nó da aresta
+	 * @param curNode - nó da aresta
 	 * @param edge - aresta selecionada
 	 * @return nó na outra ponta da aresta
 	 */

@@ -1,5 +1,6 @@
 /ants/
-/eventHandler/
 /graphHandler/
-/simulator/
 /utils/
+/AntSimulation.jar
+/MANIFEST.MF
+/simulator/

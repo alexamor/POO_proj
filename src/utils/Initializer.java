@@ -10,7 +10,7 @@ import java.lang.reflect.Field;
  * sendo posteriormente utilizado para construir o Grafo e instanciar as propriedades do
  * sistema na classe AntSimulator. 
  * 
- * @author Alexandre Filipe, Sofia Salgueiro, José Rocha
+ * @author Alexandre Filipe, Sofia Salgueiro, Josï¿½ Rocha
  * @since 07-05-2019
  */
 
@@ -32,9 +32,10 @@ public class Initializer {
 	
 	/**
 	 * Initializer contrutor - inicializa os atributos da classe
+	 * @param edges - arestas do grafo
 	 * @param pLevel - atributo propagation level
 	 * @param finalInst - atributo instante final
-	 * @param antColSize - atributo nrº de elemento da colónia
+	 * @param antColSize - atributo nrï¿½ de elemento da colï¿½nia
 	 * @param nbNode - atributo nbnode
 	 * @param nestNode - atributo nestNode
 	 * @param alpha - atributo alpha
@@ -42,7 +43,6 @@ public class Initializer {
 	 * @param delta - atributo delta
 	 * @param eta - atributo eta
 	 * @param rho - atributo rho 
-	 * @return Initializer - Objecto Initializer utilizado para construir o sistema de simulação
 	 */
 	public Initializer(ArrayList<PheromonedEdge> edges, float pLevel, float finalInst, int antColSize, int nbNode, int nestNode,
 			float alpha, float beta, float delta, float eta, float rho) {
@@ -61,8 +61,6 @@ public class Initializer {
 	
 	/**
 	 * Graph CreateGraph - devolve um Grafo a partir da ArrayList de arestas e do nbNode
-	 * @param nbNode - atributo nbNode
-	 * @param edges - atributo edges 
 	 * @return Graph 
 	 */
 	public Graph CreateGraph() {	
