@@ -15,7 +15,7 @@ public class AntSimulator implements ISimulator{
 	/**ficheiro XML a ser lido*/
 	static XML xml = new XML();
 	/**endereço completo do ficheiro XML*/
-	static String xml_path = System.getProperty("user.dir") + "\\\\"/* + "\\\\src\\\\utils\\\\XML.xml"*/;
+	static String xml_path = System.getProperty("user.dir") + "/"/* + "\\\\src\\\\utils\\\\XML.xml"*/;
 	/**nível de feromonas*/
 	static float pLevel;
 	/**duração da simulação*/
